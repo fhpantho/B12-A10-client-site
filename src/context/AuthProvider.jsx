@@ -38,6 +38,7 @@ const AuthProvider = ({children}) => {
     const AuthInfo = {
         creatUser,
         singinUser,
+        singInWithgoogle,
         user,
         loading
 
