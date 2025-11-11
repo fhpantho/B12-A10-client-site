@@ -8,6 +8,8 @@ import RootLayout from './Layout/RootLayout.jsx';
 import Home from './components/Home.jsx';
 import PublicHabbit from './components/PublicHabbit.jsx';
 import AuthProvider from './context/AuthProvider.jsx';
+import Singup from './components/authonticate/Singup.jsx';
+import Login from './components/authonticate/Login.jsx';
 
 const router = createBrowserRouter([
   {
@@ -22,6 +24,14 @@ const router = createBrowserRouter([
       {
         path : 'publichabit',
         Component : PublicHabbit
+      },
+      {
+        path : 'singup',
+        Component : Singup
+      },
+      {
+        path : "login",
+        Component : Login
       }
     ]
   },
