@@ -1,57 +1,137 @@
-import React, { use } from 'react';
-import { NavLink } from 'react-router';
-import { Authcontext } from '../../context/Authcontext';
+import React, {useContext, useState } from "react";
+import { NavLink } from "react-router";
+import { Authcontext } from "../../context/Authcontext";
+import { auth } from "../../firebase/firebase.init";
+import { updateProfile } from "firebase/auth";
+import { toast } from "react-toastify";
 
 const Singup = () => {
+  const [error, setError] = useState("");
 
-    const {singInWithgoogle} = use(Authcontext);
+  const { singInWithgoogle, creatUser } = useContext(Authcontext);
 
-    const handleGoogleSingIn =  () =>{
+  const handleGoogleSingIn = () => {
+    singInWithgoogle().then((res) => {
+      console.log(res.user);
+      setError("");
+    });
+  };
+  const resisterUser = async (e) => {
+    e.preventDefault();
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const photoURL = e.target.photoURL.value;
+    const password = e.target.password.value;
+    try {
+      const result = await creatUser(email, password);
 
-        singInWithgoogle()
-        .then(res => {
-            console.log(res.user);
-        })
-        .catch(err => {
-            console.log(err.massage)
-        })
- 
+      await updateProfile(auth.currentUser, {
+        displayName: name,
+        photoURL: photoURL,
+      });
 
+      console.log("user resiger", result.user);
+      toast.success("User register succssesfully");
+    } catch (err) {
+      console.error(err);
+      toast.error(err.message);
+      setError(err.message);
     }
-    return (
-        <div className="hero bg-base-200 min-h-screen">
-  <div className="hero-content flex-col lg:flex-row gap-20">
-    <div className="text-center lg:text-left ">
-      <h1 className="text-5xl font-bold">Hello <span className='text-purple-500'>Champ</span></h1>
-      <h1 className="text-4xl font-bold">sing up Now! and get ready for the journey</h1>
-      <h2>Allready have an Account <NavLink className="text-blue-500 underline" to="/login">login in Now!</NavLink></h2>
-      
-    </div>
-    <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-      <div className="card-body">
-        <form >
-        <fieldset className="fieldset">
-            <label className="label">Name</label>
-          <input type="text" className="input" placeholder="Name" />
-          <label className="label">Email</label>
-          <input type="email" className="input" placeholder="Email" />
-          <label className="label">PhotoURL</label>
-          <input type="text" className="input" placeholder="PhotoURL" />
-          <label className="label">Password</label>
-          <input type="password" className="input" placeholder="Password" />
-          <button className="btn btn-neutral my-4">Sing Up</button>
-          <h1 className='text-center'>-------------------------OR-------------------------</h1>
-        </fieldset>
-        </form>
-        <button onClick={handleGoogleSingIn} className="btn bg-white text-black border-[#e5e5e5]">
-  <svg aria-label="Google logo" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><g><path d="m0 0H512V512H0" fill="#fff"></path><path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"></path><path fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"></path><path fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"></path><path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"></path></g></svg>
-  Login with Google
-</button>
+  };
+  return (
+    <div className="hero bg-base-200 min-h-screen">
+      <div className="hero-content flex-col lg:flex-row gap-20">
+        <div className="text-center lg:text-left ">
+          <h1 className="text-5xl font-bold">
+            Hello <span className="text-purple-500">Champ</span>
+          </h1>
+          <h1 className="text-4xl font-bold">
+            sing up Now! and get ready for the journey
+          </h1>
+          <h2>
+            Allready have an Account{" "}
+            <NavLink className="text-blue-500 underline" to="/login">
+              login in Now!
+            </NavLink>
+          </h2>
+        </div>
+        <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+          <div className="card-body">
+            <form onSubmit={resisterUser}>
+              <fieldset className="fieldset">
+                <label className="label">Name</label>
+                <input
+                  type="text"
+                  className="input"
+                  placeholder="Name"
+                  name="name"
+                />
+                <label className="label">Email</label>
+                <input
+                  type="email"
+                  className="input"
+                  placeholder="Email"
+                  name="email"
+                />
+                <label className="label">PhotoURL</label>
+                <input
+                  type="text"
+                  className="input"
+                  placeholder="PhotoURL"
+                  name="photoURL"
+                />
+                <label className="label">Password</label>
+                <input
+                  type="password"
+                  className="input"
+                  placeholder="Password"
+                  name="password"
+                />
+                <button className="btn btn-neutral my-4">Sing Up</button>
+                <h1 className="text-center">
+                  -------------------------OR-------------------------
+                </h1>
+              </fieldset>
+            </form>
+            <button
+              onClick={handleGoogleSingIn}
+              className="btn bg-white text-black border-[#e5e5e5]"
+            >
+              <svg
+                aria-label="Google logo"
+                width="16"
+                height="16"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512"
+              >
+                <g>
+                  <path d="m0 0H512V512H0" fill="#fff"></path>
+                  <path
+                    fill="#34a853"
+                    d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"
+                  ></path>
+                  <path
+                    fill="#4285f4"
+                    d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"
+                  ></path>
+                  <path
+                    fill="#fbbc02"
+                    d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"
+                  ></path>
+                  <path
+                    fill="#ea4335"
+                    d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"
+                  ></path>
+                </g>
+              </svg>
+              Login with Google
+            </button>
+          </div>
+          <h3 className="text-red-500 text[12px]">{error}</h3>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-    );
+  );
 };
 
 export default Singup;
