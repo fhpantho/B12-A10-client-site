@@ -7,27 +7,33 @@ import { Toaster } from "react-hot-toast";
 const RootLayout = () => {
   return (
     <div>
-      <Navbar></Navbar>
-      <Outlet></Outlet>
-      <Footer></Footer>
+      <Navbar />
+      <Outlet />
+      <Footer />
+
+      {/*  Global Loading Spinner for Axios */}
+      <div
+        id="global-loader"
+        className="hidden fixed inset-0 bg-black bg-opacity-40 z-[9999] justify-center items-center"
+      >
+        <span className="loading loading-spinner loading-lg text-white"></span>
+      </div>
+
+      {/*  Toast Notification */}
       <div>
         <Toaster
-          position="top-center"
+          position="top-right"
           toastOptions={{
-            duration: 1000,
+            duration: 1500,
             style: {
               background: "#333",
               color: "#fff",
             },
             success: {
-              style: {
-                background: "green",
-              },
+              style: { background: "green" },
             },
             error: {
-              style: {
-                background: "red",
-              },
+              style: { background: "red" },
             },
           }}
         />

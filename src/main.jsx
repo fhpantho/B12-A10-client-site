@@ -10,6 +10,10 @@ import PublicHabbit from './components/PublicHabbit.jsx';
 import AuthProvider from './context/AuthProvider.jsx';
 import Singup from './components/authonticate/Singup.jsx';
 import Login from './components/authonticate/Login.jsx';
+import { path } from 'framer-motion/client';
+import PrivateRoute from './Routes/PrivateRoute.jsx';
+import AddHabbit from './components/AddHabbit.jsx';
+import Myhabit from './components/Myhabit.jsx';
 
 const router = createBrowserRouter([
   {
@@ -32,7 +36,31 @@ const router = createBrowserRouter([
       {
         path : "login",
         Component : Login
+      },
+      {
+
+
+      path : 'addhabit',
+      Component :PrivateRoute,
+      children : [
+        {
+          index : true,
+          Component : AddHabbit
+        }
+      ]
+      
+      },
+      {
+        path : 'myhabit',
+        Component : PrivateRoute,
+        children : [
+          {
+            index : true,
+            Component : Myhabit
+          }
+        ]
       }
+      
     ]
   },
 ]);

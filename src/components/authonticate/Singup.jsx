@@ -1,11 +1,12 @@
 import React, {useContext, useState } from "react";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { Authcontext } from "../../context/Authcontext";
 import { auth } from "../../firebase/firebase.init";
 import { updateProfile } from "firebase/auth";
 import { toast } from "react-toastify";
 
 const Singup = () => {
+  const navigate = useNavigate();
   const [error, setError] = useState("");
 
   const { singInWithgoogle, creatUser } = useContext(Authcontext);

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router';
 import { Authcontext } from '../../context/Authcontext';
 import { toast } from 'react-toastify';
 
@@ -19,8 +19,8 @@ const Navbar = () => {
   const link = (
     <>
       <li><NavLink to="/">HOME</NavLink></li>
-      <li><NavLink to="/">ADD HABIT</NavLink></li>
-      <li><NavLink to="/">MY HABIT</NavLink></li>
+      <li><NavLink to="/addhabit">ADD HABIT</NavLink></li>
+      <li><NavLink to="/myhabit">MY HABIT</NavLink></li>
       <li><NavLink to="/publichabit">ALL HABIT</NavLink></li>
     </>
   );
