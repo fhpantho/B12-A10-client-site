@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
 import { Authcontext } from "../../context/Authcontext";
 import { toast } from "react-hot-toast";
+import NavbarLinks from "./NavbarLinks";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -16,22 +17,6 @@ const Navbar = () => {
       .catch((err) => toast.error(err.message));
   };
 
-  const link = (
-    <>
-      <li>
-        <NavLink to="/">HOME</NavLink>
-      </li>
-      <li>
-        <NavLink to="/addhabit">ADD HABIT</NavLink>
-      </li>
-      <li>
-        <NavLink to="/myhabit">MY HABIT</NavLink>
-      </li>
-      <li>
-        <NavLink to="/publichabit">ALL HABIT</NavLink>
-      </li>
-    </>
-  );
 
   return (
     <div className="navbar bg-base-100 shadow-sm">
@@ -55,18 +40,31 @@ const Navbar = () => {
           </div>
           <ul
             tabIndex="-1"
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow gap-3"
           >
-            {link}
+            <NavbarLinks></NavbarLinks>
           </ul>
         </div>
-        <NavLink to="/" className="btn btn-ghost text-xl">
-          HABIT <span className="text-purple-500">TRACKER</span>
-        </NavLink>
+        <NavLink to='/'>
+        <div className="flex gap-2 items-center">
+          <div className="sm:flex  w-10 h-10 bg-white rounded-full hidden items-center justify-center text-purple-600 font-bold text-xl shadow-md">
+            HT
+          </div>
+        <div
+  className=" font-bold tracking-wide relative inline-block transition-all duration-300 hover:scale-105"
+>
+  HABIT{" "}
+  <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500">
+    TRACKER
+  </span>
+</div>
+</div>
+</NavLink>
+
       </div>
 
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">{link}</ul>
+        <ul className="menu menu-horizontal px-1 gap-3 w-full"><NavbarLinks></NavbarLinks></ul>
       </div>
 
       <div className="navbar-end">
@@ -87,27 +85,38 @@ const Navbar = () => {
               </div>
 
               <ul
-                tabIndex={0}
-                className="dropdown-content menu bg-base-100 rounded-box shadow mt-0 p-4 w-max"
-              >
-                <li>
-                  <div className="flex flex-col items-start gap-1 text-sm">
-                    <span className="font-semibold">Name:</span>
-                    <span>{user.displayName}</span>
-                  </div>
-                </li>
-                <li>
-                  <div className="flex flex-col items-start gap-1 text-sm">
-                    <span className="font-semibold">Email:</span>
-                    <span>{user.email}</span>
-                  </div>
-                </li>
-                <li>
-                  <button className="btn btn-sm mt-2" onClick={logOutUser}>
-                    Logout
-                  </button>
-                </li>
-              </ul>
+  tabIndex={0}
+  className="dropdown-content bg-gradient-to-b from-purple-600 via-purple-500 to-pink-500 rounded-xl shadow-lg mt-2 p-4 w-56 text-white"
+>
+  {/* User Info */}
+  <li className="mb-2">
+    <div className="flex flex-col gap-0.5">
+      <span className="font-semibold text-sm">Name:</span>
+      <span className="text-sm text-white/90">{user.displayName}</span>
+    </div>
+  </li>
+
+  <li className="mb-2">
+    <div className="flex flex-col gap-0.5">
+      <span className="font-semibold text-sm">Email:</span>
+      <span className="text-sm text-white/90">{user.email}</span>
+    </div>
+  </li>
+
+  {/* Divider */}
+  <li className="my-2 border-t border-white/30"></li>
+
+  {/* Logout Button */}
+  <li>
+    <button
+      onClick={logOutUser} // ✅ Keep the logout function
+      className="w-full py-2 rounded-lg bg-gradient-to-r from-pink-500 to-orange-400 hover:from-pink-400 hover:to-orange-300 transition-all duration-200 font-semibold shadow-md"
+    >
+      Logout
+    </button>
+  </li>
+</ul>
+
             </div>
           </div>
         ) : (

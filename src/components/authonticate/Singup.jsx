@@ -1,4 +1,4 @@
-import React, {useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router";
 import { Authcontext } from "../../context/Authcontext";
 import { updateProfile } from "firebase/auth";
@@ -7,23 +7,35 @@ import { toast } from "react-hot-toast";
 const Singup = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
-
   const { singInWithgoogle, creatUser } = useContext(Authcontext);
 
   const handleGoogleSingIn = () => {
     singInWithgoogle().then((res) => {
       console.log(res.user);
-      toast.success("Login with google succesfully")
+      toast.success("Login with google succesfully");
       setError("");
-      navigate('/')
+      navigate('/');
     });
   };
+
   const resisterUser = async (e) => {
     e.preventDefault();
     const name = e.target.name.value;
     const email = e.target.email.value;
     const photoURL = e.target.photoURL.value;
     const password = e.target.password.value;
+
+    if(email.length === 0)
+    {
+      setError("Please input your Email");
+      return;
+    }
+    if(password.length === 0)
+    {
+      setError("Password cannot be Empty");
+      return;
+    }
+
 
     if (!/[A-Z]/.test(password)) {
       setError("Password must contain at least one uppercase letter.");
@@ -40,89 +52,99 @@ const Singup = () => {
 
     setError("");
 
-    creatUser(email,password)
-    .then(userCredential => {
-      toast.success("Sing up Succesfully");
-      const user = userCredential.user;
+    creatUser(email, password)
+      .then((userCredential) => {
+        toast.success("Sing up Succesfully");
+        const user = userCredential.user;
 
-      setError("")
-      updateProfile(user, {
-        displayName : name,
-        photoURL : photoURL
+        updateProfile(user, {
+          displayName: name,
+          photoURL: photoURL,
+        });
+
+        user.name = name;
+        user.photoURL = photoURL;
+        navigate('/');
       })
-      user.name = name;
-      user.photoURL = photoURL;
-      navigate('/')
-
-    })
-    .catch(err => {
-      toast.error(`failed to sing up ${err.massage}`)
-    })
-    
+      .catch((err) => {
+        toast.error(`failed to sing up ${err.message}`);
+      });
   };
+
   return (
-    <div className="hero bg-base-200 min-h-screen">
-      <div className="hero-content flex-col lg:flex-row gap-20">
-        <div className="text-center lg:text-left ">
-          <h1 className="text-5xl font-bold">
-            Hello <span className="text-purple-500">Champ</span>
+    <div className="hero min-h-screen bg-gradient-to-r from-purple-600 via-purple-500 to-pink-500">
+      <div className="hero-content flex-col lg:flex-row gap-16 p-6">
+        {/* Left Section */}
+        <div className="text-center lg:text-left text-white">
+          <h1 className="text-5xl font-bold mb-2">
+            Hello <span className="text-yellow-300">Champ</span>
           </h1>
-          <h1 className="text-4xl font-bold">
-            sing up Now! and get ready for the journey
-          </h1>
-          <h2>
-            Allready have an Account{" "}
-            <NavLink className="text-blue-500 underline" to="/login">
-              login in Now!
-            </NavLink>
+          <h2 className="text-4xl font-semibold mb-4">
+            Sing up Now! and get ready for the journey
           </h2>
+          <p className="text-lg">
+            Allready have an Account?{" "}
+            <NavLink
+              className="text-blue-300 underline hover:text-yellow-300 transition-colors"
+              to="/login"
+            >
+              Login Now!
+            </NavLink>
+          </p>
         </div>
-        <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-          <div className="card-body">
-            <form onSubmit={resisterUser}>
-              <fieldset className="fieldset">
-                <label className="label">Name</label>
-                <input
-                  type="text"
-                  className="input"
-                  placeholder="Name"
-                  name="name"
-                />
-                <label className="label">Email</label>
-                <input
-                  type="email"
-                  className="input"
-                  placeholder="Email"
-                  name="email"
-                />
-                <label className="label">PhotoURL</label>
-                <input
-                  type="text"
-                  className="input"
-                  placeholder="PhotoURL"
-                  name="photoURL"
-                />
-                <label className="label">Password</label>
-                <input
-                  type="password"
-                  className="input"
-                  placeholder="Password"
-                  name="password"
-                />
-                <button className="btn btn-neutral my-4">Sing Up</button>
-                <h1 className="text-center">
-                  -------------------------OR-------------------------
-                </h1>
-              </fieldset>
+
+        {/* Right Section - Signup Form */}
+        <div className="card bg-white/90 backdrop-blur-md w-full max-w-sm shadow-2xl rounded-xl">
+          <div className="card-body flex flex-col gap-4">
+            <form onSubmit={resisterUser} className="flex flex-col gap-4">
+              <label className="label font-semibold">Name</label>
+              <input
+                type="text"
+                name="name"
+                placeholder="Name"
+                className="input input-bordered w-full rounded-lg"
+              />
+
+              <label className="label font-semibold">Email</label>
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                className="input input-bordered w-full rounded-lg"
+              />
+
+              <label className="label font-semibold">PhotoURL</label>
+              <input
+                type="text"
+                name="photoURL"
+                placeholder="PhotoURL"
+                className="input input-bordered w-full rounded-lg"
+              />
+
+              <label className="label font-semibold">Password</label>
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                className="input input-bordered w-full rounded-lg"
+              />
+
+              <button className="w-full py-2 rounded-lg bg-gradient-to-r from-pink-500 to-orange-400 hover:from-pink-400 hover:to-orange-300 text-white font-semibold shadow-md transition-all duration-200">
+                Sing Up
+              </button>
+
+              <div className="text-center text-gray-500 ">— OR —</div>
             </form>
+
+            {/* Google Signup */}
             <button
               onClick={handleGoogleSingIn}
-              className="btn bg-white text-black border-[#e5e5e5]"
+              className="btn w-full flex items-center justify-center gap-2 bg-white text-black border border-gray-300 hover:bg-gray-100 transition-colors duration-200"
             >
               <svg
                 aria-label="Google logo"
-                width="16"
-                height="16"
+                width="20"
+                height="20"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512"
               >
@@ -148,8 +170,12 @@ const Singup = () => {
               </svg>
               Login with Google
             </button>
+
+            {/* Error Message */}
+            <p className="text-red-500 text-sm w-100 mt-1  ">
+              {error || " "}
+            </p>
           </div>
-          <h3 className="text-red-500 text[12px]">{error}</h3>
         </div>
       </div>
     </div>
