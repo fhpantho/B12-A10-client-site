@@ -1,9 +1,8 @@
 import React, {useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router";
 import { Authcontext } from "../../context/Authcontext";
-import { auth } from "../../firebase/firebase.init";
 import { updateProfile } from "firebase/auth";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 const Singup = () => {
   const navigate = useNavigate();
@@ -14,7 +13,9 @@ const Singup = () => {
   const handleGoogleSingIn = () => {
     singInWithgoogle().then((res) => {
       console.log(res.user);
+      toast.success("Login with google succesfully")
       setError("");
+      navigate('/')
     });
   };
   const resisterUser = async (e) => {
@@ -23,21 +24,41 @@ const Singup = () => {
     const email = e.target.email.value;
     const photoURL = e.target.photoURL.value;
     const password = e.target.password.value;
-    try {
-      const result = await creatUser(email, password);
 
-      await updateProfile(auth.currentUser, {
-        displayName: name,
-        photoURL: photoURL,
-      });
-
-      console.log("user resiger", result.user);
-      toast.success("User register succssesfully");
-    } catch (err) {
-      console.error(err);
-      toast.error(err.message);
-      setError(err.message);
+    if (!/[A-Z]/.test(password)) {
+      setError("Password must contain at least one uppercase letter.");
+      return;
     }
+    if (!/[a-z]/.test(password)) {
+      setError("Password must contain at least one lowercase letter.");
+      return;
+    }
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      return;
+    }
+
+    setError("");
+
+    creatUser(email,password)
+    .then(userCredential => {
+      toast.success("Sing up Succesfully");
+      const user = userCredential.user;
+
+      setError("")
+      updateProfile(user, {
+        displayName : name,
+        photoURL : photoURL
+      })
+      user.name = name;
+      user.photoURL = photoURL;
+      navigate('/')
+
+    })
+    .catch(err => {
+      toast.error(`failed to sing up ${err.massage}`)
+    })
+    
   };
   return (
     <div className="hero bg-base-200 min-h-screen">

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router';
 import { Authcontext } from '../../context/Authcontext';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 
 const Navbar = () => {
   const navigate = useNavigate();
