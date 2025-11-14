@@ -14,6 +14,7 @@ import { path } from 'framer-motion/client';
 import PrivateRoute from './Routes/PrivateRoute.jsx';
 import AddHabbit from './components/AddHabbit.jsx';
 import Myhabit from './components/Myhabit.jsx';
+import UpdateHabit from './components/UpdateHabit.jsx';
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,16 @@ const router = createBrowserRouter([
           {
             index : true,
             Component : Myhabit
+          }
+        ]
+      },
+      {
+        path : 'updatehabit/:id',
+        Component : PrivateRoute,
+        children : [
+          {
+            index : true,
+            Component : UpdateHabit
           }
         ]
       }

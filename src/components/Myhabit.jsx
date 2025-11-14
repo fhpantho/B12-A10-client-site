@@ -7,6 +7,7 @@ import Aos from "aos";
 import "aos/dist/aos.css";
 import { Authcontext } from "../context/Authcontext";
 import toast from "react-hot-toast";
+import { NavLink } from "react-router";
 
 const Myhabit = () => {
   const { user } = useContext(Authcontext);
@@ -166,12 +167,15 @@ const Myhabit = () => {
                 </td>
 
                 <td className="p-4 flex gap-3">
-                  <button
+                  <NavLink to = {`/updatehabit/${habit._id}`}>
+                    <button
                     className="px-3 py-1 rounded bg-blue-500 text-white hover:bg-blue-600"
-                    onClick={() => alert("Update Feature Coming Soon")}
+                    
                   >
                     Update
                   </button>
+                  </NavLink>
+                  
 
                   <button
                     className="px-3 py-1 rounded bg-red-500 text-white hover:bg-red-600"
