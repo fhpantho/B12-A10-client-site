@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { Authcontext } from "../context/Authcontext";
@@ -13,6 +12,8 @@ const AddHabbit = () => {
   const [image, setImage] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const currentDate = new Date().toISOString().split("T")[0];
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -25,12 +26,13 @@ const AddHabbit = () => {
       image,
       userEmail: user?.email,
       userName: user?.displayName,
+      createdAt: new Date(),
     };
 
     try {
       await axios.post("http://localhost:3000/habbits", habitData);
       toast.success("Habit added successfully!");
-      // Reset form
+
       setTitle("");
       setDescription("");
       setCategory("Morning");
@@ -47,7 +49,9 @@ const AddHabbit = () => {
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
       <h2 className="text-2xl font-bold mb-4 text-center">Add Habit</h2>
+
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+
         <label className="font-semibold">Habit Title</label>
         <input
           type="text"
@@ -110,6 +114,15 @@ const AddHabbit = () => {
         <input
           type="text"
           value={user?.displayName || ""}
+          readOnly
+          className="input input-bordered w-full rounded-lg bg-gray-100"
+        />
+
+        {/* 🔥 CREATED AT (optional display) */}
+        <label className="font-semibold">Created Date</label>
+        <input
+          type="text"
+          value={currentDate}
           readOnly
           className="input input-bordered w-full rounded-lg bg-gray-100"
         />

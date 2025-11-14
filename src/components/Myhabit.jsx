@@ -1,23 +1,21 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
-
-import { motion } from "framer-motion";
 import { Authcontext } from "../context/Authcontext";
-
+import { motion } from "framer-motion";
 import Aos from "aos";
 import "aos/dist/aos.css";
-
-
 
 const Myhabit = () => {
   const { user } = useContext(Authcontext);
   const [habits, setHabits] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // AOS Init
   useEffect(() => {
-      Aos.init({ duration: 700, easing: "fade-up" });
-    }, []);
+    Aos.init({ duration: 600 });
+  }, []);
 
+  // Fetch User Habits
   useEffect(() => {
     const fetchHabits = async () => {
       if (!user?.email) return;
@@ -33,10 +31,10 @@ const Myhabit = () => {
         setLoading(false);
       }
     };
-
     fetchHabits();
   }, [user?.email]);
 
+  // Loading Spinner
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -53,55 +51,124 @@ const Myhabit = () => {
             r="10"
             stroke="currentColor"
             strokeWidth="4"
-          ></circle>
+          />
           <path
             className="opacity-75"
             fill="currentColor"
             d="M4 12a8 8 0 018-8v8z"
-          ></path>
+          />
         </svg>
       </div>
     );
   }
 
+  // No Habits
   if (!habits.length) {
     return (
-      <div className="text-center mt-10 text-gray-500">
+      <div className="text-center mt-10 text-gray-500 text-lg">
         You have not added any habits yet.
       </div>
     );
   }
 
+  // Handler: Delete Habit
+  const handleDelete = async (id) => {
+    const confirm = window.confirm("Are you sure you want to delete this habit?");
+    if (!confirm) return;
+
+    try {
+      await axios.delete(`http://localhost:3000/habbits/${id}`);
+      setHabits(habits.filter((h) => h._id !== id));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // Handler: Mark Complete
+  const handleComplete = async (habit) => {
+    try {
+      const updated = {
+        ...habit,
+        currentStreak: (habit.currentStreak || 0) + 1,
+      };
+
+      await axios.put(`http://localhost:3000/habbits/${habit._id}`, updated);
+
+      setHabits((prev) =>
+        prev.map((h) => (h._id === habit._id ? updated : h))
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-      {habits.map((habit) => (
-        <motion.div
-        data-aos="fade-up"
-          key={habit._id}
-          className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-200"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <img
-            src={habit.image || "https://via.placeholder.com/400x200"}
-            alt={habit.title}
-            className="w-full h-48 object-cover"
-          />
-          <div className="p-4 flex flex-col gap-2">
-            <h2 className="text-xl font-bold">{habit.title}</h2>
-            <p className="text-gray-600 text-sm line-clamp-3">{habit.description}</p>
-            <p className="text-gray-500 text-sm">Category: {habit.category}</p>
-            <p className="text-gray-500 text-sm">Reminder: {habit.reminderTime}</p>
-            <button
-              className="mt-2 py-2 px-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg shadow-md hover:brightness-110 transition-all"
-              onClick={() => alert(`View details for "${habit.title}"`)}
-            >
-              View Details
-            </button>
-          </div>
-        </motion.div>
-      ))}
-    </div>
+    <motion.div
+      data-aos="fade-up"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="p-6"
+    >
+      <h1 className="text-3xl font-bold mb-6 text-purple-600">My Habits</h1>
+
+      <div className="overflow-x-auto shadow-lg rounded-xl border border-gray-200">
+        <table className="w-full text-left">
+          <thead className="bg-purple-50">
+            <tr>
+              <th className="p-4">Title</th>
+              <th className="p-4">Category</th>
+              <th className="p-4">Current Streak</th>
+              <th className="p-4">Created Date</th>
+              <th className="p-4">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {habits.map((habit) => (
+              <tr
+                key={habit._id}
+                className="border-t hover:bg-purple-50/40 transition"
+              >
+                <td className="p-4 font-semibold">{habit.title}</td>
+
+                <td className="p-4">{habit.category}</td>
+
+                <td className="p-4 text-center">{habit.currentStreak || 0}</td>
+
+                <td className="p-4">
+                  {habit.createdAt
+                    ? new Date(habit.createdAt).toLocaleDateString()
+                    : "N/A"}
+                </td>
+
+                <td className="p-4 flex gap-3">
+                  <button
+                    className="px-3 py-1 rounded bg-blue-500 text-white hover:bg-blue-600"
+                    onClick={() => alert("Update Feature Coming Soon")}
+                  >
+                    Update
+                  </button>
+
+                  <button
+                    className="px-3 py-1 rounded bg-red-500 text-white hover:bg-red-600"
+                    onClick={() => handleDelete(habit._id)}
+                  >
+                    Delete
+                  </button>
+
+                  <button
+                    className="px-3 py-1 rounded bg-green-500 text-white hover:bg-green-600"
+                    onClick={() => handleComplete(habit)}
+                  >
+                    Complete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </motion.div>
   );
 };
 
