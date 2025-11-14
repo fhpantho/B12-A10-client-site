@@ -1,9 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { Authcontext } from "../context/Authcontext";
+import Swal from "sweetalert2";
+
 import { motion } from "framer-motion";
 import Aos from "aos";
 import "aos/dist/aos.css";
+import { Authcontext } from "../context/Authcontext";
+import toast from "react-hot-toast";
 
 const Myhabit = () => {
   const { user } = useContext(Authcontext);
@@ -71,18 +74,39 @@ const Myhabit = () => {
     );
   }
 
-  // Handler: Delete Habit
-  const handleDelete = async (id) => {
-    const confirm = window.confirm("Are you sure you want to delete this habit?");
-    if (!confirm) return;
+  // delete habit
 
-    try {
-      await axios.delete(`http://localhost:3000/habbits/${id}`);
-      setHabits(habits.filter((h) => h._id !== id));
-    } catch (err) {
-      console.error(err);
-    }
-  };
+ const handleDelete = async (id) => {
+  if (!user?.email) return toast.error("You must be logged in!");
+
+  const result = await Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'Cancel',
+  });
+  if (result.isConfirmed){
+  try {
+    await axios.delete(`http://localhost:3000/habbits/${id}`, {
+      data: { userEmail: user.email },
+    });
+
+    toast.success("Habit deleted successfully!");
+
+    setHabits((prev) => prev.filter((h) => h._id.toString() !== id.toString()));
+  } catch (err) {
+    console.error(err);
+    toast.error(err.response?.data?.message || "Delete failed");
+  }
+}
+ };
+
+
+
 
   // Handler: Mark Complete
   const handleComplete = async (habit) => {
