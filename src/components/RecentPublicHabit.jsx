@@ -72,14 +72,14 @@ const RecentPublicHabits = () => {
             </p>
 
             {/* Category */}
-            <p className="text-sm bg-orange-100 text-orange-700 inline-block px-3 py-1 rounded-full mb-4">
+            <p className="text-sm bg-orange-100 text-orange-700 inline-block px-3 py-1 rounded-full mb-4 inline">
               {item.category}
             </p>
 
             {/* View Details Button */}
             <button
               onClick={() => navigate(`/habbits/${item._id}`)}
-              className="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 transition font-semibold"
+              className="mt-3 py-2 px-4 bg-gradient-to-r from-orange-500 cursor-pointer to-purple-500 text-white font-semibold rounded-lg shadow-md hover:brightness-110 transition w-full"
             >
               View Details
             </button>
