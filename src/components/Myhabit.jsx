@@ -75,55 +75,59 @@ const Myhabit = () => {
     );
   }
 
-  // delete habit
+  // DELETE handler
+  const handleDelete = async (id) => {
+    if (!user?.email) return toast.error("You must be logged in!");
 
- const handleDelete = async (id) => {
-  if (!user?.email) return toast.error("You must be logged in!");
-
-  const result = await Swal.fire({
-    title: 'Are you sure?',
-    text: "You won't be able to revert this!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, delete it!',
-    cancelButtonText: 'Cancel',
-  });
-  if (result.isConfirmed){
-  try {
-    await axios.delete(`http://localhost:3000/habbits/${id}`, {
-      data: { userEmail: user.email },
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
     });
 
-    toast.success("Habit deleted successfully!");
+    if (result.isConfirmed) {
+      try {
+        await axios.delete(`http://localhost:3000/habbits/${id}`, {
+          data: { userEmail: user.email },
+        });
 
-    setHabits((prev) => prev.filter((h) => h._id.toString() !== id.toString()));
-  } catch (err) {
-    console.error(err);
-    toast.error(err.response?.data?.message || "Delete failed");
-  }
-}
- };
+        toast.success("Habit deleted successfully!");
 
+        setHabits((prev) => prev.filter((h) => h._id.toString() !== id.toString()));
+      } catch (err) {
+        console.error(err);
+        toast.error(err.response?.data?.message || "Delete failed");
+      }
+    }
+  };
 
-
-
-  // Handler: Mark Complete
+  // COMPLETE handler 
   const handleComplete = async (habit) => {
+    if (!user?.email) return toast.error("You must be logged in!");
+
     try {
-      const updated = {
-        ...habit,
-        currentStreak: (habit.currentStreak || 0) + 1,
-      };
+      const res = await axios.patch(
+        `http://localhost:3000/habbits/${habit._id}/complete`,
+        { userEmail: user.email }
+      );
 
-      await axios.put(`http://localhost:3000/habbits/${habit._id}`, updated);
+      toast.success("Marked as completed!");
 
+      // Update UI
       setHabits((prev) =>
-        prev.map((h) => (h._id === habit._id ? updated : h))
+        prev.map((h) =>
+          h._id === habit._id
+            ? { ...h, completionHistory: res.data.completionHistory }
+            : h
+        )
       );
     } catch (err) {
-      console.error(err);
+      const msg = err.response?.data?.message || "Failed to complete";
+      toast.error(msg);
     }
   };
 
@@ -149,50 +153,59 @@ const Myhabit = () => {
           </thead>
 
           <tbody>
-            {habits.map((habit) => (
-              <tr
-                key={habit._id}
-                className="border-t hover:bg-purple-50/40 transition"
-              >
-                <td className="p-4 font-semibold">{habit.title}</td>
+            {habits.map((habit) => {
+              const today = new Date().toISOString().split("T")[0];
+              const completedToday = habit.completionHistory?.includes(today);
 
-                <td className="p-4">{habit.category}</td>
+              return (
+                <tr
+                  key={habit._id}
+                  className="border-t hover:bg-purple-50/40 transition"
+                >
+                  <td className="p-4 font-semibold">{habit.title}</td>
 
-                <td className="p-4 text-center">{habit.currentStreak || 0}</td>
+                  <td className="p-4">{habit.category}</td>
 
-                <td className="p-4">
-                  {habit.createdAt
-                    ? new Date(habit.createdAt).toLocaleDateString()
-                    : "N/A"}
-                </td>
+                  <td className="p-4 text-center">
+                    {habit.completionHistory?.length || 0}
+                  </td>
 
-                <td className="p-4 flex gap-3">
-                  <NavLink to = {`/updatehabit/${habit._id}`}>
+                  <td className="p-4">
+                    {habit.createdAt
+                      ? new Date(habit.createdAt).toLocaleDateString()
+                      : "N/A"}
+                  </td>
+
+                  <td className="p-4 flex gap-3 items-center">
+                    <NavLink to={`/updatehabit/${habit._id}`}>
+                      <button className="px-3 py-1 rounded bg-blue-500 text-white hover:bg-blue-600">
+                        Update
+                      </button>
+                    </NavLink>
+
                     <button
-                    className="px-3 py-1 rounded bg-blue-500 text-white hover:bg-blue-600"
-                    
-                  >
-                    Update
-                  </button>
-                  </NavLink>
-                  
+                      className="px-3 py-1 rounded bg-red-500 text-white hover:bg-red-600"
+                      onClick={() => handleDelete(habit._id)}
+                    >
+                      Delete
+                    </button>
 
-                  <button
-                    className="px-3 py-1 rounded bg-red-500 text-white hover:bg-red-600"
-                    onClick={() => handleDelete(habit._id)}
-                  >
-                    Delete
-                  </button>
-
-                  <button
-                    className="px-3 py-1 rounded bg-green-500 text-white hover:bg-green-600"
-                    onClick={() => handleComplete(habit)}
-                  >
-                    Complete
-                  </button>
-                </td>
-              </tr>
-            ))}
+                    {/* COMPLETE BUTTON WITH DISABLE OPTION */}
+                    <button
+                      disabled={completedToday}
+                      onClick={() => !completedToday && handleComplete(habit)}
+                      className={`px-3 py-1 rounded text-white ${
+                        completedToday
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-green-500 hover:bg-green-600"
+                      }`}
+                    >
+                      {completedToday ? "Completed Today" : "Complete"}
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
