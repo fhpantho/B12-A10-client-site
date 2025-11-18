@@ -105,7 +105,7 @@ const Login = () => {
                 className="input input-bordered w-full rounded-lg"
               />
 
-              <button className="w-full py-2 rounded-lg bg-gradient-to-r from-pink-500 to-orange-400 hover:from-pink-400 hover:to-orange-300 text-white font-semibold shadow-md transition-all duration-200">
+              <button className="cursor-pointer w-full py-2 rounded-lg bg-gradient-to-r from-pink-500 to-orange-400 hover:from-pink-400 hover:to-orange-300 text-white font-semibold shadow-md transition-all duration-200">
                 Login
               </button>
 

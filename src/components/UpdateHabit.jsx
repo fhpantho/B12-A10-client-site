@@ -22,7 +22,7 @@ const UpdateHabit = () => {
   useEffect(() => {
     const fetchHabit = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/habbits/${id}`);
+        const res = await axios.get(`https://habit-tracker-server-eight.vercel.app/habbits/${id}`);
         setHabitData({
           title: res.data.title || "",
           description: res.data.description || "",
@@ -50,7 +50,7 @@ const UpdateHabit = () => {
     setLoading(true);
 
     try {
-      await axios.patch(`http://localhost:3000/habbits/${id}`, {
+      await axios.patch(`https://habit-tracker-server-eight.vercel.app/habbits/${id}`, {
         ...habitData,
         userEmail: user.email,
       });

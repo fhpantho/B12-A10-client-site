@@ -16,7 +16,7 @@ const HabitDetails = () => {
     const fetchHabit = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`http://localhost:3000/habbits/${id}`);
+        const res = await axios.get(`https://habit-tracker-server-eight.vercel.app/habbits/${id}`);
         setHabit(res.data);
       } catch (err) {
         setError("Failed to fetch habit details");

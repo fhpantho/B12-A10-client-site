@@ -25,7 +25,7 @@ const Myhabit = () => {
       if (!user?.email) return;
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:3000/habbits", {
+        const response = await axios.get("https://habit-tracker-server-eight.vercel.app/habbits", {
           params: { userEmail: user.email },
         });
         setHabits(response.data);
@@ -91,7 +91,7 @@ const Myhabit = () => {
 
     if (result.isConfirmed) {
       try {
-        await axios.delete(`http://localhost:3000/habbits/${id}`, {
+        await axios.delete(`https://habit-tracker-server-eight.vercel.app/habbits/${id}`, {
           data: { userEmail: user.email },
         });
 
@@ -111,7 +111,7 @@ const Myhabit = () => {
 
     try {
       const res = await axios.patch(
-        `http://localhost:3000/habbits/${habit._id}/complete`,
+        `https://habit-tracker-server-eight.vercel.app/habbits/${habit._id}/complete`,
         { userEmail: user.email }
       );
 

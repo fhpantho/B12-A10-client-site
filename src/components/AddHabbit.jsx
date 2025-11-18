@@ -30,7 +30,7 @@ const AddHabbit = () => {
     };
 
     try {
-      await axios.post("http://localhost:3000/habbits", habitData);
+      await axios.post("https://habit-tracker-server-eight.vercel.app/habbits", habitData);
       toast.success("Habit added successfully!");
 
       setTitle("");

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { NavLink } from 'react-router';
 
 const RecentPublicHabits = () => {
   const [habbits, setHabbits] = useState([]);
@@ -11,7 +12,7 @@ const RecentPublicHabits = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/habbits?home=true")
+      .get("https://habit-tracker-server-eight.vercel.app/habbits?home=true")
       .then((res) => {
         setHabbits(res.data);
         setLoading(false);
@@ -97,6 +98,10 @@ const RecentPublicHabits = () => {
           ))}
         </div>
       )}
+      <div className="text-center flex items-center justify-center my-20">
+        <NavLink to ="/publichabit" className="btn px-4 py-2 rounded-full font-medium text-white transition-all duration-300 bg-purple-500 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-400 hover:scale-105">Browse All Habit</NavLink>
+      </div>
+      
     </div>
   );
 };

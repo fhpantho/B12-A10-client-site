@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import { Typewriter } from "react-simple-typewriter";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import { NavLink } from "react-router";
 
 const Banner = () => {
   const settings = {
@@ -22,21 +23,21 @@ const Banner = () => {
       image: "https://i.ibb.co/xSjq4MrQ/or-just-do-it-with-someone-1680909068.webp",
       words: ["Build Healthy Habits", "Stay Motivated Every Day"],
       description: "Track your daily habits and achieve your goals.",
-      buttonText: "Get Started",
+      buttonText: <NavLink to = "/myhabit">Track Your Habit</NavLink>,
       buttonColor: "text-purple-600",
     },
     {
       image: "https://i.ibb.co/7NT19gmj/build-new-habits-one-at-a-time-1680909068.webp",
       words: ["Stay Consistent", "Build Streaks & Achieve Goals"],
       description: "Consistency is the key to success.",
-      buttonText: "Start Tracking",
+      buttonText: <NavLink to = "/addhabit">Add Your Habit</NavLink>,
       buttonColor: "text-green-600",
     },
     {
       image: "https://i.ibb.co/RTG4Yczv/images.jpg",
       words: ["Track Your Progress", "Improve Your Lifestyle"],
       description: "Analyze your habits over time and become your best self.",
-      buttonText: "View Dashboard",
+      buttonText: <NavLink to = "/publichabit">View All Habit</NavLink>,
       buttonColor: "text-pink-600",
     },
   ];
@@ -46,7 +47,6 @@ const Banner = () => {
       <Slider {...settings}>
         {slides.map((slide, index) => (
           <div key={index} className="relative h-[70vh] lg:h-[90vh] w-full">
-            {/* Background Image */}
             <div
               className="absolute inset-0 bg-cover bg-center bg-no-repeat"
               style={{ backgroundImage: `url(${slide.image})` }}

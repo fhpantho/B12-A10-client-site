@@ -94,7 +94,7 @@ const Singup = () => {
         </div>
 
         {/* Right Section - Signup Form */}
-        <div className="card bg-white/90 backdrop-blur-md w-full max-w-[300px] shadow-2xl rounded-xl">
+        <div className="card bg-white/90 backdrop-blur-md w-full sm:max-w-[400px] max-w-[300px] shadow-2xl rounded-xl">
           <div className="card-body flex flex-col gap-4">
             <form onSubmit={resisterUser} className="flex flex-col gap-4">
               <label className="label font-semibold">Name</label>
@@ -129,7 +129,7 @@ const Singup = () => {
                 className="input input-bordered w-full rounded-lg"
               />
 
-              <button className="w-full py-2 rounded-lg bg-gradient-to-r from-pink-500 to-orange-400 hover:from-pink-400 hover:to-orange-300 text-white font-semibold shadow-md transition-all duration-200">
+              <button className="cursor-pointer w-full py-2 rounded-lg bg-gradient-to-r from-pink-500 to-orange-400 hover:from-pink-400 hover:to-orange-300 text-white font-semibold shadow-md transition-all duration-200">
                 Sing Up
               </button>
 
@@ -139,7 +139,7 @@ const Singup = () => {
             {/* Google Signup */}
             <button
               onClick={handleGoogleSingIn}
-              className="btn w-full flex items-center justify-center gap-2 bg-white text-black border border-gray-300 hover:bg-gray-100 transition-colors duration-200"
+              className="cursor-pointer btn w-full flex items-center justify-center gap-2 bg-white text-black border border-gray-300 hover:bg-gray-100 transition-colors duration-200"
             >
               <svg
                 aria-label="Google logo"
@@ -172,7 +172,7 @@ const Singup = () => {
             </button>
 
             {/* Error Message */}
-            <p className="text-red-500 text-sm w-100 mt-1  ">
+            <p className="text-red-500 text-sm  mt-1  ">
               {error || " "}
             </p>
           </div>
