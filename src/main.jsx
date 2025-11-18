@@ -15,6 +15,7 @@ import PrivateRoute from './Routes/PrivateRoute.jsx';
 import AddHabbit from './components/AddHabbit.jsx';
 import Myhabit from './components/Myhabit.jsx';
 import UpdateHabit from './components/UpdateHabit.jsx';
+import HabitDetails from './components/HabitDetails.jsx';
 
 const router = createBrowserRouter([
   {
@@ -68,6 +69,16 @@ const router = createBrowserRouter([
           {
             index : true,
             Component : UpdateHabit
+          }
+        ]
+      },
+       {
+        path : 'habbitdetails/:id',
+        Component : PrivateRoute,
+        children : [
+          {
+            index : true,
+            Component : HabitDetails
           }
         ]
       }

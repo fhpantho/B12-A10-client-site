@@ -94,7 +94,7 @@ const Singup = () => {
         </div>
 
         {/* Right Section - Signup Form */}
-        <div className="card bg-white/90 backdrop-blur-md w-full max-w-sm shadow-2xl rounded-xl">
+        <div className="card bg-white/90 backdrop-blur-md w-full max-w-[300px] shadow-2xl rounded-xl">
           <div className="card-body flex flex-col gap-4">
             <form onSubmit={resisterUser} className="flex flex-col gap-4">
               <label className="label font-semibold">Name</label>

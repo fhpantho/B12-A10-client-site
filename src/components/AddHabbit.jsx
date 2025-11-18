@@ -130,7 +130,7 @@ const AddHabbit = () => {
         <button
           type="submit"
           disabled={loading}
-          className="btn w-full bg-gradient-to-r from-green-400 to-purple-500 hover:from-green-500 hover:to-purple-600 text-white font-semibold flex justify-center items-center gap-2"
+          className="btn w-full bg-gradient-to-r from-orange-500 to-purple-500 text-white font-semibold rounded-lg shadow-md hover:brightness-110 transition text-white font-semibold flex justify-center items-center gap-2"
         >
           {loading && (
             <svg

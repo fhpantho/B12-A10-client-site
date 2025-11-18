@@ -178,13 +178,13 @@ const Myhabit = () => {
 
                   <td className="p-4 flex gap-3 items-center">
                     <NavLink to={`/updatehabit/${habit._id}`}>
-                      <button className="px-3 py-1 rounded bg-blue-500 text-white hover:bg-blue-600">
+                      <button className=" cursor-pointer px-3 py-1 rounded bg-blue-500 text-white hover:bg-blue-600">
                         Update
                       </button>
                     </NavLink>
 
                     <button
-                      className="px-3 py-1 rounded bg-red-500 text-white hover:bg-red-600"
+                      className="px-3 cursor-pointer py-1 rounded bg-red-500 text-white hover:bg-red-600"
                       onClick={() => handleDelete(habit._id)}
                     >
                       Delete
@@ -194,7 +194,7 @@ const Myhabit = () => {
                     <button
                       disabled={completedToday}
                       onClick={() => !completedToday && handleComplete(habit)}
-                      className={`px-3 py-1 rounded text-white ${
+                      className={`px-3 cursor-pointer py-1 rounded text-white ${
                         completedToday
                           ? "bg-gray-400 cursor-not-allowed"
                           : "bg-green-500 hover:bg-green-600"

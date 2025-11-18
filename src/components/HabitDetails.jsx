@@ -1,0 +1,154 @@
+import { useEffect, useState, useContext } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { Authcontext } from "../context/Authcontext";
+
+const HabitDetails = () => {
+  const { id } = useParams();
+  const { user } = useContext(Authcontext);
+
+  const [habit, setHabit] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  // Fetch habit details
+  useEffect(() => {
+    const fetchHabit = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get(`http://localhost:3000/habbits/${id}`);
+        setHabit(res.data);
+      } catch (err) {
+        setError("Failed to fetch habit details");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchHabit();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center py-20">
+        <div className="animate-spin h-10 w-10 border-4 border-orange-500 border-t-transparent rounded-full"></div>
+      </div>
+    );
+  }
+
+  if (error) return <p className="text-center text-red-500">{error}</p>;
+  if (!habit) return <p className="text-center text-gray-500">No Habit Found</p>;
+
+  // Calculate progress (last 30 days)
+  const calculateProgress = () => {
+    const history = habit.completionHistory || [];
+    const today = new Date();
+    const last30 = [];
+    for (let i = 0; i < 30; i++) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      last30.push(d.toISOString().slice(0, 10));
+    }
+    const completed = history.filter((d) => last30.includes(d));
+    return Math.round((completed.length / 30) * 100);
+  };
+
+  // Calculate streak
+  const calculateStreak = () => {
+    const history = (habit.completionHistory || []).sort().reverse();
+    let streak = 0;
+    let current = new Date().toISOString().slice(0, 10);
+
+    for (let d of history) {
+      if (d === current) {
+        streak++;
+        const date = new Date(current);
+        date.setDate(date.getDate() - 1);
+        current = date.toISOString().slice(0, 10);
+      } else break;
+    }
+    return streak;
+  };
+
+  // Check if already completed today
+  const completedToday = habit.completionHistory?.includes(new Date().toISOString().slice(0, 10));
+
+  // Mark Complete (only creator)
+  const markComplete = async () => {
+    try {
+      const res = await axios.patch(
+        `http://localhost:3000/habbits/${habit._id}/complete`,
+        { userEmail: user.email }
+      );
+
+      if (res.status === 200) {
+        const today = new Date().toISOString().slice(0, 10);
+        setHabit({
+          ...habit,
+          completionHistory: [...(habit.completionHistory || []), today],
+        });
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || "Failed to mark complete");
+    }
+  };
+
+  return (
+    <div className="p-6 max-w-3xl mx-auto">
+      {/* Habit Image */}
+      <img
+        src={habit.image || "https://via.placeholder.com/800x400"}
+        alt={habit.title}
+        className="w-full h-60 object-cover rounded-lg mb-5"
+      />
+
+      {/* Title & Description */}
+      <h1 className="text-3xl font-bold mb-3">{habit.title}</h1>
+      <p className="text-gray-600 mb-5">{habit.description}</p>
+
+      {/* Category & Creator */}
+      <p className="text-sm text-gray-500 mb-2">
+        <span className="font-semibold">Category:</span> {habit.category}
+      </p>
+      <p className="text-sm text-gray-500 mb-4">
+        <span className="font-semibold">Creator:</span> {habit.userName || "Unknown"}
+      </p>
+
+      {/* Progress Bar */}
+      <div className="mb-4">
+        <p className="font-semibold mb-1">Progress (last 30 days): {calculateProgress()}%</p>
+        <div className="w-full bg-gray-200 rounded-full h-3">
+          <div
+            className="bg-orange-500 h-3 rounded-full"
+            style={{ width: `${calculateProgress()}%` }}
+          ></div>
+        </div>
+      </div>
+
+      {/* Streak */}
+      <p className="text-orange-600 font-semibold mb-5">🔥 Streak: {calculateStreak()} days</p>
+
+      {/* Mark Complete / Info */}
+      {user?.email === habit.userEmail ? (
+        completedToday ? (
+          <button
+            disabled
+            className="py-2 px-4 bg-gray-400 text-white rounded-lg shadow cursor-not-allowed"
+          >
+            Completed for today
+          </button>
+        ) : (
+          <button
+            onClick={markComplete}
+            className="py-2 px-4 bg-orange-500 text-white rounded-lg shadow hover:bg-orange-600 transition"
+          >
+            Mark Complete
+          </button>
+        )
+      ) : (
+        <p className="text-gray-500 font-semibold">You can only watch this habit</p>
+      )}
+    </div>
+  );
+};
+
+export default HabitDetails;

@@ -33,59 +33,70 @@ const RecentPublicHabits = () => {
         Recent Public Habits
       </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 md:px-10">
-        {habbits.map((item, index) => (
-          <motion.div
-            key={item._id}
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1, duration: 0.4 }}
-            className="shadow-md rounded-xl p-5 bg-white border hover:shadow-xl transition duration-300"
-          >
-            {/* Habit Image */}
-            {item.image ? (
-              <img
-                src={item.image}
-                alt={item.title}
-                className="h-40 w-full object-cover rounded-lg mb-4"
-              />
-            ) : (
-              <div className="h-40 w-full bg-orange-100 rounded-lg mb-4 flex items-center justify-center text-orange-500 font-semibold">
-                No Image
-              </div>
-            )}
+      {/* If no habits */}
+      {habbits.length === 0 && (
+        <p className="text-center text-gray-600 text-lg">
+          There is no habit
+        </p>
+      )}
 
-            {/* Habit Title */}
-            <h2 className="text-xl font-bold mb-2 text-gray-800">
-              {item.title}
-            </h2>
-
-            {/* Short Description */}
-            <p className="text-gray-600 mb-3">
-              {item.description.slice(0, 60)}...
-            </p>
-
-            {/* Creator Name */}
-            <p className="text-sm text-gray-500 mb-3">
-              <span className="font-semibold text-orange-600">Creator: </span>
-              {item.userName || "Unknown"}
-            </p>
-
-            {/* Category */}
-            <p className="text-sm bg-orange-100 text-orange-700 inline-block px-3 py-1 rounded-full mb-4 inline">
-              {item.category}
-            </p>
-
-            {/* View Details Button */}
-            <button
-              onClick={() => navigate(`/habbits/${item._id}`)}
-              className="mt-3 py-2 px-4 bg-gradient-to-r from-orange-500 cursor-pointer to-purple-500 text-white font-semibold rounded-lg shadow-md hover:brightness-110 transition w-full"
+      {/* Habit Cards */}
+      {habbits.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 md:px-10">
+          {habbits.map((item, index) => (
+            <motion.div
+              key={item._id}
+              data-aos="fade-up"
+              whileHover={{ scale: 1.03 }}
+              
+              className="shadow-lg rounded-xl p-5 bg-white hover:shadow-2xl transition duration-300"
             >
-              View Details
-            </button>
-          </motion.div>
-        ))}
-      </div>
+              
+              {/* Habit Image */}
+              {item.image ? (
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="h-40 w-full object-cover rounded-lg mb-4"
+                />
+              ) : (
+                <div className="h-40 w-full bg-orange-100 rounded-lg mb-4 flex items-center justify-center text-orange-500 font-semibold">
+                  No Image
+                </div>
+              )}
+
+              {/* Habit Title */}
+              <h2 className="text-xl font-bold mb-2 text-gray-800">
+                {item.title}
+              </h2>
+
+              {/* Short Description */}
+              <p className="text-gray-600 mb-3">
+                {item.description.slice(0, 60)}...
+              </p>
+
+              {/* Creator */}
+              <p className="text-sm text-gray-500 mb-3">
+                <span className="font-semibold text-orange-600">Creator: </span>
+                {item.userName || "Unknown"}
+              </p>
+
+              {/* Category */}
+              <p className="text-sm bg-orange-100 text-orange-700 inline-block px-3 py-1 rounded-full mb-4">
+                {item.category}
+              </p>
+
+              {/* View Details */}
+              <button
+                onClick={() => navigate(`/habbitdetails/${item._id}`)}
+                className="cursor-pointer mt-3 py-2 px-4 bg-gradient-to-r from-orange-500 to-purple-500 text-white font-semibold rounded-lg shadow-md hover:brightness-110 transition w-full"
+              >
+                View Details
+              </button>
+            </motion.div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
