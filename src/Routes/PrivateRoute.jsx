@@ -21,7 +21,7 @@ const PrivateRoute = () => {
     );
   }
 
-  // ✅ If user not logged in, redirect to login and remember the route
+
    if (!user) {
     return <Navigate to="/login" state={{ from: location.pathname }} replace />;
   }

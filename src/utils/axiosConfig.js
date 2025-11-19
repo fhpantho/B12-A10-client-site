@@ -10,12 +10,12 @@ const setLoading = (state) => {
   loader.style.display = state ? "flex" : "none";
 };
 
-// Create Axios instance
+
 const axiosInstance = axios.create({
-  // baseURL: "https://your-api-url.com", // Optional if you have a backend
+
 });
 
-// ✅ Request Interceptor
+
 axiosInstance.interceptors.request.use(
   (config) => {
     loadingCount++;
@@ -28,7 +28,7 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// ✅ Response Interceptor
+
 axiosInstance.interceptors.response.use(
   (response) => {
     loadingCount--;

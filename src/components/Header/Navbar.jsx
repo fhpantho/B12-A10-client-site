@@ -109,7 +109,7 @@ const Navbar = () => {
   {/* Logout Button */}
   <li>
     <button
-      onClick={logOutUser} // ✅ Keep the logout function
+      onClick={logOutUser}
       className="w-full py-2 rounded-lg bg-gradient-to-r from-pink-500 to-orange-400 hover:from-pink-400 hover:to-orange-300 transition-all duration-200 font-semibold shadow-md"
     >
       Logout

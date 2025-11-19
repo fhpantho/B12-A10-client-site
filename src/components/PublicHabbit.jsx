@@ -44,16 +44,16 @@ const PublicHabitList = () => {
     }
   }, [search, activeCategory]);
 
-  // Fetch whenever search/category changes
+
   useEffect(() => {
     const delay = setTimeout(() => {
       fetchHabits();
-    }, 300); // debounce delay
+    }, 300); 
 
     return () => clearTimeout(delay);
   }, [fetchHabits]);
 
-  // First page load loader
+
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
