@@ -5,7 +5,7 @@ import { Authcontext } from "../context/Authcontext";
 
 const HabitDetails = () => {
   const { id } = useParams();
-  const { user } = useContext(Authcontext);
+  const { user, loading: userLoading } = useContext(Authcontext);
 
   const [habit, setHabit] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -16,7 +16,9 @@ const HabitDetails = () => {
     const fetchHabit = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`https://habit-tracker-server-eight.vercel.app/habbits/${id}`);
+        const res = await axios.get(
+          `https://habit-tracker-server-eight.vercel.app/habbits/${id}`
+        );
         setHabit(res.data);
       } catch (err) {
         setError("Failed to fetch habit details");
@@ -26,6 +28,23 @@ const HabitDetails = () => {
     };
     fetchHabit();
   }, [id]);
+
+
+  if (userLoading) {
+    return (
+      <div className="flex justify-center py-20">
+        <div className="animate-spin h-10 w-10 border-4 border-orange-500 border-t-transparent rounded-full"></div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="text-center py-10 text-gray-600">
+        Please login to view this habit.
+      </div>
+    );
+  }
 
   if (loading) {
     return (
@@ -43,11 +62,13 @@ const HabitDetails = () => {
     const history = habit.completionHistory || [];
     const today = new Date();
     const last30 = [];
+
     for (let i = 0; i < 30; i++) {
       const d = new Date(today);
       d.setDate(d.getDate() - i);
       last30.push(d.toISOString().slice(0, 10));
     }
+
     const completed = history.filter((d) => last30.includes(d));
     return Math.round((completed.length / 30) * 100);
   };
@@ -69,14 +90,21 @@ const HabitDetails = () => {
     return streak;
   };
 
-  // Check if already completed today
-  const completedToday = habit.completionHistory?.includes(new Date().toISOString().slice(0, 10));
+  // Already completed?
+  const completedToday = habit.completionHistory?.includes(
+    new Date().toISOString().slice(0, 10)
+  );
 
-  // Mark Complete (only creator)
+  // Mark Complete
   const markComplete = async () => {
+    if (!user?.email) {
+      alert("User email not loaded yet!");
+      return;
+    }
+
     try {
       const res = await axios.patch(
-        `http://localhost:3000/habbits/${habit._id}/complete`,
+        `https://habit-tracker-server-eight.vercel.app/habbits/${habit._id}/complete`,
         { userEmail: user.email }
       );
 
@@ -101,7 +129,7 @@ const HabitDetails = () => {
         className="w-full h-60 object-cover rounded-lg mb-5"
       />
 
-      {/* Title & Description */}
+      {/* Title */}
       <h1 className="text-3xl font-bold mb-3">{habit.title}</h1>
       <p className="text-gray-600 mb-5">{habit.description}</p>
 
@@ -113,9 +141,11 @@ const HabitDetails = () => {
         <span className="font-semibold">Creator:</span> {habit.userName || "Unknown"}
       </p>
 
-      {/* Progress Bar */}
+      {/* Progress */}
       <div className="mb-4">
-        <p className="font-semibold mb-1">Progress (last 30 days): {calculateProgress()}%</p>
+        <p className="font-semibold mb-1">
+          Progress (last 30 days): {calculateProgress()}%
+        </p>
         <div className="w-full bg-gray-200 rounded-full h-3">
           <div
             className="bg-orange-500 h-3 rounded-full"
@@ -125,10 +155,12 @@ const HabitDetails = () => {
       </div>
 
       {/* Streak */}
-      <p className="text-orange-600 font-semibold mb-5">🔥 Streak: {calculateStreak()} days</p>
+      <p className="text-orange-600 font-semibold mb-5">
+        🔥 Streak: {calculateStreak()} days
+      </p>
 
-      {/* Mark Complete / Info */}
-      {user?.email === habit.userEmail ? (
+      {/* Mark Complete */}
+      {user.email === habit.userEmail ? (
         completedToday ? (
           <button
             disabled
@@ -139,13 +171,15 @@ const HabitDetails = () => {
         ) : (
           <button
             onClick={markComplete}
-            className="py-2 px-4 bg-orange-500 text-white rounded-lg shadow hover:bg-orange-600 transition"
+            className="py-2 px-4 bg-orange-500 text-white rounded-lg shadow hover:bg-orange-600 transition cursor-pointer"
           >
             Mark Complete
           </button>
         )
       ) : (
-        <p className="text-gray-500 font-semibold">You can only watch this habit</p>
+        <p className="text-gray-500 font-semibold">
+          You can only watch this habit
+        </p>
       )}
     </div>
   );
