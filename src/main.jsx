@@ -15,6 +15,7 @@ import AddHabbit from './components/AddHabbit.jsx';
 import Myhabit from './components/Myhabit.jsx';
 import UpdateHabit from './components/UpdateHabit.jsx';
 import HabitDetails from './components/HabitDetails.jsx';
+import { ThemeProvider } from './context/ThemeContext.jsx';
 
 const router = createBrowserRouter([
   {
@@ -89,9 +90,11 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <ThemeProvider>
     <AuthProvider>
-      <RouterProvider router={router} />,
+      <RouterProvider router={router} />
     </AuthProvider>
+    </ThemeProvider>
     
   </StrictMode>,
 )

@@ -7,12 +7,12 @@ import Testimonials from './Testimonials';
 
 const Home = () => {
     return (
-        <div>
-            <Banner></Banner>
-            <RecentPublicHabits></RecentPublicHabits>
-            <WhyHabits></WhyHabits>
-            <HowHabitTrackerWorks></HowHabitTrackerWorks>
-            <Testimonials></Testimonials>
+        <div className="bg-base-100 dark:bg-base-200 text-base-content dark:text-base-content transition-colors duration-300">
+            <Banner />
+            <RecentPublicHabits />
+            <WhyHabits />
+            <HowHabitTrackerWorks />
+            <Testimonials />
         </div>
     );
 };

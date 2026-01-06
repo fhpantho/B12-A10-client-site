@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -18,11 +18,12 @@ const UpdateHabit = () => {
   });
   const [loading, setLoading] = useState(false);
 
-
   useEffect(() => {
     const fetchHabit = async () => {
       try {
-        const res = await axios.get(`https://habit-tracker-server-eight.vercel.app/habbits/${id}`);
+        const res = await axios.get(
+          `https://habit-tracker-server-eight.vercel.app/habbits/${id}`
+        );
         setHabitData({
           title: res.data.title || "",
           description: res.data.description || "",
@@ -38,22 +39,23 @@ const UpdateHabit = () => {
     fetchHabit();
   }, [id]);
 
- 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setHabitData((prev) => ({ ...prev, [name]: value }));
   };
-
 
   const handleUpdate = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      await axios.patch(`https://habit-tracker-server-eight.vercel.app/habbits/${id}`, {
-        ...habitData,
-        userEmail: user.email,
-      });
+      await axios.patch(
+        `https://habit-tracker-server-eight.vercel.app/habbits/${id}`,
+        {
+          ...habitData,
+          userEmail: user.email,
+        }
+      );
 
       toast.success("Habit updated successfully!");
       navigate("/myhabit");
@@ -66,34 +68,36 @@ const UpdateHabit = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-bold mb-4 text-center">Update Habit</h2>
+    <div className="max-w-md mx-auto mt-10 p-6 rounded-lg shadow-lg bg-base-100 dark:bg-base-200 transition-colors duration-300">
+      <h2 className="text-2xl font-bold mb-4 text-center text-base-content dark:text-base-content">
+        Update Habit
+      </h2>
       <form onSubmit={handleUpdate} className="flex flex-col gap-4">
-        <label className="font-semibold">Habit Title</label>
+        <label className="font-semibold text-base-content dark:text-base-content">Habit Title</label>
         <input
           type="text"
           name="title"
           value={habitData.title}
           onChange={handleChange}
-          className="input input-bordered w-full rounded-lg"
+          className="input input-bordered w-full rounded-lg bg-base-200 dark:bg-base-300 text-base-content dark:text-base-content"
           required
         />
 
-        <label className="font-semibold">Description</label>
+        <label className="font-semibold text-base-content dark:text-base-content">Description</label>
         <textarea
           name="description"
           value={habitData.description}
           onChange={handleChange}
-          className="textarea textarea-bordered w-full rounded-lg"
+          className="textarea textarea-bordered w-full rounded-lg bg-base-200 dark:bg-base-300 text-base-content dark:text-base-content"
           required
         />
 
-        <label className="font-semibold">Category</label>
+        <label className="font-semibold text-base-content dark:text-base-content">Category</label>
         <select
           name="category"
           value={habitData.category}
           onChange={handleChange}
-          className="select select-bordered w-full rounded-lg"
+          className="select select-bordered w-full rounded-lg bg-base-200 dark:bg-base-300 text-base-content dark:text-base-content"
         >
           <option>Morning</option>
           <option>Work</option>
@@ -102,39 +106,39 @@ const UpdateHabit = () => {
           <option>Study</option>
         </select>
 
-        <label className="font-semibold">Reminder Time</label>
+        <label className="font-semibold text-base-content dark:text-base-content">Reminder Time</label>
         <input
           type="time"
           name="reminderTime"
           value={habitData.reminderTime}
           onChange={handleChange}
-          className="input input-bordered w-full rounded-lg"
+          className="input input-bordered w-full rounded-lg bg-base-200 dark:bg-base-300 text-base-content dark:text-base-content"
           required
         />
 
-        <label className="font-semibold">Image URL (optional)</label>
+        <label className="font-semibold text-base-content dark:text-base-content">Image URL (optional)</label>
         <input
           type="text"
           name="image"
           value={habitData.image}
           onChange={handleChange}
-          className="input input-bordered w-full rounded-lg"
+          className="input input-bordered w-full rounded-lg bg-base-200 dark:bg-base-300 text-base-content dark:text-base-content"
         />
 
-        <label className="font-semibold">User Email</label>
+        <label className="font-semibold text-base-content dark:text-base-content">User Email</label>
         <input
           type="email"
           value={user?.email || ""}
           readOnly
-          className="input input-bordered w-full rounded-lg bg-gray-100"
+          className="input input-bordered w-full rounded-lg bg-base-200 dark:bg-base-300 text-base-content dark:text-base-content"
         />
 
-        <label className="font-semibold">User Name</label>
+        <label className="font-semibold text-base-content dark:text-base-content">User Name</label>
         <input
           type="text"
           value={user?.displayName || ""}
           readOnly
-          className="input input-bordered w-full rounded-lg bg-gray-100"
+          className="input input-bordered w-full rounded-lg bg-base-200 dark:bg-base-300 text-base-content dark:text-base-content"
         />
 
         <button

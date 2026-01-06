@@ -31,8 +31,8 @@ const WhyHabits = () => {
   ];
 
   return (
-    <div className="py-14 px-6 bg-gradient-to-b from-orange-50 to-purple-50">
-      <h2 className="text-4xl font-extrabold text-center text-orange-600 mb-10">
+    <div className="py-14 px-6 bg-gradient-to-b from-orange-50 to-purple-50 dark:from-base-200 dark:to-base-300 transition-colors duration-300">
+      <h2 className="text-4xl font-extrabold text-center text-orange-600 dark:text-orange-400 mb-10">
         Why Build Habits?
       </h2>
 
@@ -42,15 +42,17 @@ const WhyHabits = () => {
             key={index}
             whileHover={{ scale: 1.07 }}
             transition={{ type: "spring", stiffness: 200 }}
-            className="bg-white shadow-lg rounded-xl p-6 flex flex-col items-center text-center border border-gray-200 hover:shadow-2xl transition"
+            className="bg-base-100 dark:bg-base-200 shadow-lg rounded-xl p-6 flex flex-col items-center text-center border border-base-200 dark:border-base-300 hover:shadow-2xl transition"
           >
             <div className="mb-4">{item.icon}</div>
 
-            <h3 className="text-xl font-bold text-gray-800 mb-2">
+            <h3 className="text-xl font-bold text-base-content dark:text-base-content mb-2">
               {item.title}
             </h3>
 
-            <p className="text-gray-600 text-sm">{item.description}</p>
+            <p className="text-gray-600 dark:text-gray-300 text-sm">
+              {item.description}
+            </p>
           </motion.div>
         ))}
       </div>

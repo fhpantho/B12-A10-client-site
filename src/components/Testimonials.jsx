@@ -21,8 +21,8 @@ const Testimonials = () => {
   ];
 
   return (
-    <div className="py-16 px-6 bg-gradient-to-b from-purple-50 to-orange-50">
-      <h2 className="text-4xl font-extrabold text-center text-orange-600 mb-12">
+    <div className="py-16 px-6 transition-colors duration-300 bg-base-100 dark:bg-base-200">
+      <h2 className="text-4xl font-extrabold text-center text-primary dark:text-secondary mb-12">
         What Our Users Say
       </h2>
 
@@ -31,7 +31,7 @@ const Testimonials = () => {
           <motion.div
             key={index}
             whileHover={{ scale: 1.05 }}
-            className={`p-6 rounded-xl shadow-lg text-white bg-gradient-to-br ${review.color}`}
+            className={`p-6 rounded-xl shadow-lg transition-colors duration-300 text-base-content dark:text-base-content bg-gradient-to-br ${review.color}`}
           >
             <p className="text-sm italic mb-4">"{review.text}"</p>
             <h3 className="font-bold text-lg">— {review.name}</h3>

@@ -29,7 +29,6 @@ const HabitDetails = () => {
     fetchHabit();
   }, [id]);
 
-
   if (userLoading) {
     return (
       <div className="flex justify-center py-20">
@@ -40,7 +39,7 @@ const HabitDetails = () => {
 
   if (!user) {
     return (
-      <div className="text-center py-10 text-gray-600">
+      <div className="text-center py-10 text-base-content dark:text-base-content">
         Please login to view this habit.
       </div>
     );
@@ -54,8 +53,14 @@ const HabitDetails = () => {
     );
   }
 
-  if (error) return <p className="text-center text-red-500">{error}</p>;
-  if (!habit) return <p className="text-center text-gray-500">No Habit Found</p>;
+  if (error)
+    return <p className="text-center text-red-500 dark:text-red-400">{error}</p>;
+  if (!habit)
+    return (
+      <p className="text-center text-base-content dark:text-base-content">
+        No Habit Found
+      </p>
+    );
 
   // Calculate progress (last 30 days)
   const calculateProgress = () => {
@@ -121,7 +126,7 @@ const HabitDetails = () => {
   };
 
   return (
-    <div className="p-6 max-w-3xl mx-auto">
+    <div className="p-6 max-w-3xl mx-auto bg-base-100 dark:bg-base-200 rounded-lg shadow-lg transition-colors duration-300">
       {/* Habit Image */}
       <img
         src={habit.image || "https://via.placeholder.com/800x400"}
@@ -130,23 +135,27 @@ const HabitDetails = () => {
       />
 
       {/* Title */}
-      <h1 className="text-3xl font-bold mb-3">{habit.title}</h1>
-      <p className="text-gray-600 mb-5">{habit.description}</p>
+      <h1 className="text-3xl font-bold mb-3 text-base-content dark:text-base-content">
+        {habit.title}
+      </h1>
+      <p className="mb-5 text-base-content/80 dark:text-base-content/90">
+        {habit.description}
+      </p>
 
       {/* Category & Creator */}
-      <p className="text-sm text-gray-500 mb-2">
+      <p className="text-sm mb-2 text-base-content/70 dark:text-base-content/80">
         <span className="font-semibold">Category:</span> {habit.category}
       </p>
-      <p className="text-sm text-gray-500 mb-4">
+      <p className="text-sm mb-4 text-base-content/70 dark:text-base-content/80">
         <span className="font-semibold">Creator:</span> {habit.userName || "Unknown"}
       </p>
 
       {/* Progress */}
       <div className="mb-4">
-        <p className="font-semibold mb-1">
+        <p className="font-semibold mb-1 text-base-content dark:text-base-content">
           Progress (last 30 days): {calculateProgress()}%
         </p>
-        <div className="w-full bg-gray-200 rounded-full h-3">
+        <div className="w-full bg-base-300 dark:bg-base-400 rounded-full h-3">
           <div
             className="bg-orange-500 h-3 rounded-full"
             style={{ width: `${calculateProgress()}%` }}
@@ -155,7 +164,7 @@ const HabitDetails = () => {
       </div>
 
       {/* Streak */}
-      <p className="text-orange-600 font-semibold mb-5">
+      <p className="font-semibold mb-5 text-orange-500 dark:text-orange-400">
         🔥 Streak: {calculateStreak()} days
       </p>
 
@@ -164,20 +173,20 @@ const HabitDetails = () => {
         completedToday ? (
           <button
             disabled
-            className="py-2 px-4 bg-gray-400 text-white rounded-lg shadow cursor-not-allowed"
+            className="py-2 px-4 bg-base-300 dark:bg-base-400 text-base-content dark:text-base-content rounded-lg shadow cursor-not-allowed"
           >
             Completed for today
           </button>
         ) : (
           <button
             onClick={markComplete}
-            className="py-2 px-4 bg-orange-500 text-white rounded-lg shadow hover:bg-orange-600 transition cursor-pointer"
+            className="py-2 px-4 bg-orange-500 dark:bg-orange-400 text-white rounded-lg shadow hover:bg-orange-600 dark:hover:bg-orange-300 transition cursor-pointer"
           >
             Mark Complete
           </button>
         )
       ) : (
-        <p className="text-gray-500 font-semibold">
+        <p className="font-semibold text-base-content/70 dark:text-base-content/80">
           You can only watch this habit
         </p>
       )}
