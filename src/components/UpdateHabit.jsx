@@ -58,7 +58,7 @@ const UpdateHabit = () => {
       );
 
       toast.success("Habit updated successfully!");
-      navigate("/myhabit");
+      navigate("/dashboard/myhabit");
     } catch (err) {
       console.error(err);
       toast.error(err.response?.data?.message || "Update failed");
@@ -73,7 +73,9 @@ const UpdateHabit = () => {
         Update Habit
       </h2>
       <form onSubmit={handleUpdate} className="flex flex-col gap-4">
-        <label className="font-semibold text-base-content dark:text-base-content">Habit Title</label>
+        <label className="font-semibold text-base-content dark:text-base-content">
+          Habit Title
+        </label>
         <input
           type="text"
           name="title"
@@ -83,7 +85,9 @@ const UpdateHabit = () => {
           required
         />
 
-        <label className="font-semibold text-base-content dark:text-base-content">Description</label>
+        <label className="font-semibold text-base-content dark:text-base-content">
+          Description
+        </label>
         <textarea
           name="description"
           value={habitData.description}
@@ -92,7 +96,9 @@ const UpdateHabit = () => {
           required
         />
 
-        <label className="font-semibold text-base-content dark:text-base-content">Category</label>
+        <label className="font-semibold text-base-content dark:text-base-content">
+          Category
+        </label>
         <select
           name="category"
           value={habitData.category}
@@ -106,7 +112,9 @@ const UpdateHabit = () => {
           <option>Study</option>
         </select>
 
-        <label className="font-semibold text-base-content dark:text-base-content">Reminder Time</label>
+        <label className="font-semibold text-base-content dark:text-base-content">
+          Reminder Time
+        </label>
         <input
           type="time"
           name="reminderTime"
@@ -116,7 +124,9 @@ const UpdateHabit = () => {
           required
         />
 
-        <label className="font-semibold text-base-content dark:text-base-content">Image URL (optional)</label>
+        <label className="font-semibold text-base-content dark:text-base-content">
+          Image URL (optional)
+        </label>
         <input
           type="text"
           name="image"
@@ -125,7 +135,9 @@ const UpdateHabit = () => {
           className="input input-bordered w-full rounded-lg bg-base-200 dark:bg-base-300 text-base-content dark:text-base-content"
         />
 
-        <label className="font-semibold text-base-content dark:text-base-content">User Email</label>
+        <label className="font-semibold text-base-content dark:text-base-content">
+          User Email
+        </label>
         <input
           type="email"
           value={user?.email || ""}
@@ -133,7 +145,9 @@ const UpdateHabit = () => {
           className="input input-bordered w-full rounded-lg bg-base-200 dark:bg-base-300 text-base-content dark:text-base-content"
         />
 
-        <label className="font-semibold text-base-content dark:text-base-content">User Name</label>
+        <label className="font-semibold text-base-content dark:text-base-content">
+          User Name
+        </label>
         <input
           type="text"
           value={user?.displayName || ""}

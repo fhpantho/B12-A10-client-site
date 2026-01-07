@@ -22,9 +22,12 @@ const Myhabit = () => {
       if (!user?.email) return;
       try {
         setLoading(true);
-        const response = await axios.get("https://habit-tracker-server-eight.vercel.app/habbits", {
-          params: { userEmail: user.email },
-        });
+        const response = await axios.get(
+          "https://habit-tracker-server-eight.vercel.app/habbits",
+          {
+            params: { userEmail: user.email },
+          }
+        );
         setHabits(response.data);
       } catch (err) {
         console.error(err);
@@ -85,12 +88,17 @@ const Myhabit = () => {
 
     if (result.isConfirmed) {
       try {
-        await axios.delete(`https://habit-tracker-server-eight.vercel.app/habbits/${id}`, {
-          data: { userEmail: user.email },
-        });
+        await axios.delete(
+          `https://habit-tracker-server-eight.vercel.app/habbits/${id}`,
+          {
+            data: { userEmail: user.email },
+          }
+        );
 
         toast.success("Habit deleted successfully!");
-        setHabits((prev) => prev.filter((h) => h._id.toString() !== id.toString()));
+        setHabits((prev) =>
+          prev.filter((h) => h._id.toString() !== id.toString())
+        );
       } catch (err) {
         console.error(err);
         toast.error(err.response?.data?.message || "Delete failed");
@@ -128,7 +136,9 @@ const Myhabit = () => {
       animate={{ opacity: 1 }}
       className="p-6 transition-colors duration-300 bg-base-100 dark:bg-base-200 text-base-content dark:text-base-content"
     >
-      <h1 className="text-3xl font-bold mb-6 text-primary dark:text-secondary">My Habits</h1>
+      <h1 className="text-3xl font-bold mb-6 text-primary dark:text-secondary">
+        My Habits
+      </h1>
 
       <div className="overflow-x-auto shadow-lg rounded-xl border border-base-300 dark:border-base-400">
         <table className="w-full text-left">
@@ -163,7 +173,7 @@ const Myhabit = () => {
                       : "N/A"}
                   </td>
                   <td className="p-4 flex gap-3 items-center">
-                    <NavLink to={`/updatehabit/${habit._id}`}>
+                    <NavLink to={`/dashboard/updatehabit/${habit._id}`}>
                       <button className="px-3 py-1 rounded bg-primary text-white hover:bg-primary-focus transition">
                         Update
                       </button>

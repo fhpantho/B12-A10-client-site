@@ -40,16 +40,7 @@ const router = createBrowserRouter([
         path: "login",
         Component: Login,
       },
-      {
-        path: "updatehabit/:id",
-        Component: PrivateRoute,
-        children: [
-          {
-            index: true,
-            Component: UpdateHabit,
-          },
-        ],
-      },
+
       {
         path: "habbitdetails/:id",
         Component: PrivateRoute,
@@ -83,6 +74,10 @@ const router = createBrowserRouter([
               {
                 path: "myhabit",
                 Component: Myhabit,
+              },
+              {
+                path: "updatehabit/:id",
+                Component: UpdateHabit,
               },
             ],
           },
