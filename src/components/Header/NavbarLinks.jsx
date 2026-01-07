@@ -1,4 +1,6 @@
 import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { Authcontext } from "../../context/Authcontext";
 
 const links = [
   { name: "Home", path: "/" },
@@ -8,6 +10,8 @@ const links = [
 ];
 
 const NavbarLinks = () => {
+  const { user } = useContext(Authcontext);
+
   return (
     <>
       {links.map((link) => (
@@ -26,7 +30,25 @@ const NavbarLinks = () => {
             {link.name}
           </NavLink>
         </li>
-      ))}</>
+      ))}
+      {user && (
+        <li>
+          <NavLink
+            to="/dashboard"
+            className={({ isActive }) =>
+              `px-4 py-2 rounded-full font-medium text-white transition-all duration-300
+              ${
+                isActive
+                  ? "bg-gradient-to-r from-purple-600 to-pink-500 shadow-lg scale-105"
+                  : "bg-purple-500 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-400 hover:scale-105"
+              }`
+            }
+          >
+            Dashboard
+          </NavLink>
+        </li>
+      )}
+    </>
   );
 };
 

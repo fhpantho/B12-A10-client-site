@@ -36,7 +36,9 @@ const Navbar = () => {
   return (
     <div
       className={`navbar bg-base-100 dark:bg-base-200 border-b border-base-content/10 transition-colors duration-300 px-4 fixed top-0 left-0 w-full z-50 ${
-        scrolled ? "shadow-lg backdrop-blur-md bg-white/90 dark:bg-base-200/90" : ""
+        scrolled
+          ? "shadow-lg backdrop-blur-md bg-white/90 dark:bg-base-200/90"
+          : ""
       }`}
     >
       {/* LEFT */}
@@ -112,21 +114,51 @@ const Navbar = () => {
               className="dropdown-content mt-3 w-56 rounded-xl bg-gradient-to-b from-purple-600 via-purple-500 to-pink-500 p-4 text-white shadow-lg"
             >
               <li className="mb-2">
-                <p className="text-sm font-semibold">Name</p>
-                <p className="text-sm text-white/90">{user.displayName}</p>
+                <Link
+                  to="/profile"
+                  className="flex items-center gap-2 hover:bg-white/10 rounded-lg p-2"
+                >
+                  <div className="avatar">
+                    <div className="w-8 rounded-full">
+                      <img src={user.photoURL} />
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold">{user.displayName}</p>
+                    <p className="text-xs text-white/70">{user.email}</p>
+                  </div>
+                </Link>
               </li>
 
-              <li className="mb-3">
-                <p className="text-sm font-semibold">Email</p>
-                <p className="text-sm text-white/90">{user.email}</p>
+              <li className="border-t border-white/20 my-1"></li>
+
+              <li>
+                <Link to="/dashboard" className="hover:bg-white/10">
+                  Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link to="/profile" className="hover:bg-white/10">
+                  Profile
+                </Link>
+              </li>
+              <li>
+                <Link to="/myhabit" className="hover:bg-white/10">
+                  My Habbit
+                </Link>
+              </li>
+              <li>
+                <Link to="/addhabit" className="hover:bg-white/10">
+                  Add Habbit
+                </Link>
               </li>
 
-              <li className="border-t border-white/30 my-2"></li>
+              <li className="border-t border-white/20 my-1"></li>
 
               <li>
                 <button
                   onClick={logOutUser}
-                  className="w-full py-2 rounded-lg bg-gradient-to-r from-pink-500 to-orange-400 hover:brightness-110 transition font-semibold"
+                  className="w-full py-2 rounded-lg bg-white/20 hover:bg-white/30 transition font-semibold text-center mt-2"
                 >
                   Logout
                 </button>
