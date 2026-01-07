@@ -43,7 +43,7 @@ const Dashboard = () => {
                 Profile
               </Link>
               <Link
-                to="/dashboard/addhabit"
+                to="/dashboard/add-habit"
                 className="btn btn-ghost justify-start gap-3 w-full hover:bg-pink-100 dark:hover:bg-pink-900/20 text-base-content"
               >
                 <svg
@@ -63,7 +63,7 @@ const Dashboard = () => {
                 Add Habbit
               </Link>
               <Link
-                to="/dashboard/myhabit"
+                to="/dashboard/my-habit"
                 className="btn btn-ghost justify-start gap-3 w-full hover:bg-orange-100 dark:hover:bg-orange-900/20 text-base-content"
               >
                 <svg

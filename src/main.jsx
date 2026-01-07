@@ -15,7 +15,7 @@ import Myhabit from "./components/Myhabit.jsx";
 import UpdateHabit from "./components/UpdateHabit.jsx";
 import HabitDetails from "./components/HabitDetails.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
-import DashboardStats from "./components/DashboardStats.jsx";
+import DashboardOverview from "./components/DashboardOverview.jsx";
 import Profile from "./pages/Profile.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 
@@ -61,18 +61,18 @@ const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                Component: DashboardStats,
+                Component: DashboardOverview,
               },
               {
                 path: "profile",
                 Component: Profile,
               },
               {
-                path: "addhabit",
+                path: "add-habit",
                 Component: AddHabbit,
               },
               {
-                path: "myhabit",
+                path: "my-habit",
                 Component: Myhabit,
               },
               {
