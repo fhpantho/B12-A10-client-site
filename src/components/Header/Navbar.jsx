@@ -111,54 +111,70 @@ const Navbar = () => {
 
             <ul
               tabIndex={0}
-              className="dropdown-content mt-3 w-56 rounded-xl bg-gradient-to-b from-purple-600 via-purple-500 to-pink-500 p-4 text-white shadow-lg"
+              className="dropdown-content mt-3 w-56 rounded-xl bg-base-100 dark:bg-base-200 border border-base-content/10 p-4 text-base-content shadow-lg"
             >
               <li className="mb-2">
                 <Link
-                  to="/profile"
-                  className="flex items-center gap-2 hover:bg-white/10 rounded-lg p-2"
+                  to="/dashboard/profile"
+                  className="flex items-center gap-2 hover:bg-base-200 dark:hover:bg-base-300 rounded-lg p-2 transition-colors"
                 >
                   <div className="avatar">
                     <div className="w-8 rounded-full">
                       <img src={user.photoURL} />
                     </div>
                   </div>
-                  <div>
-                    <p className="text-sm font-semibold">{user.displayName}</p>
-                    <p className="text-xs text-white/70">{user.email}</p>
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold truncate">
+                      {user.displayName}
+                    </p>
+                    <p className="text-xs text-base-content/70 truncate">
+                      {user.email}
+                    </p>
                   </div>
                 </Link>
               </li>
 
-              <li className="border-t border-white/20 my-1"></li>
+              <li className="border-t border-base-content/10 my-1"></li>
 
               <li>
-                <Link to="/dashboard" className="hover:bg-white/10">
+                <Link
+                  to="/dashboard"
+                  className="hover:bg-base-200 dark:hover:bg-base-300 rounded-lg p-2 my-1"
+                >
                   Dashboard
                 </Link>
               </li>
               <li>
-                <Link to="/profile" className="hover:bg-white/10">
+                <Link
+                  to="/dashboard/profile"
+                  className="hover:bg-base-200 dark:hover:bg-base-300 rounded-lg p-2 my-1"
+                >
                   Profile
                 </Link>
               </li>
               <li>
-                <Link to="/myhabit" className="hover:bg-white/10">
+                <Link
+                  to="/dashboard/myhabit"
+                  className="hover:bg-base-200 dark:hover:bg-base-300 rounded-lg p-2 my-1"
+                >
                   My Habbit
                 </Link>
               </li>
               <li>
-                <Link to="/addhabit" className="hover:bg-white/10">
+                <Link
+                  to="/dashboard/addhabit"
+                  className="hover:bg-base-200 dark:hover:bg-base-300 rounded-lg p-2 my-1"
+                >
                   Add Habbit
                 </Link>
               </li>
 
-              <li className="border-t border-white/20 my-1"></li>
+              <li className="border-t border-base-content/10 my-1"></li>
 
               <li>
                 <button
                   onClick={logOutUser}
-                  className="w-full py-2 rounded-lg bg-white/20 hover:bg-white/30 transition font-semibold text-center mt-2"
+                  className="w-full py-2 rounded-lg bg-base-200 hover:bg-base-300 transition font-semibold text-center mt-2"
                 >
                   Logout
                 </button>

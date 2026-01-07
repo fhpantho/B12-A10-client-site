@@ -4,8 +4,8 @@ import { Authcontext } from "../../context/Authcontext";
 
 const links = [
   { name: "Home", path: "/" },
-  { name: "Add Habit", path: "/addhabit" },
-  { name: "My Habit", path: "/myhabit" },
+  { name: "Add Habit", path: "/dashboard/addhabit" },
+  { name: "My Habit", path: "/dashboard/myhabit" },
   { name: "All Habit", path: "/publichabit" },
 ];
 
