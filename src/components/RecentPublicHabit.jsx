@@ -42,7 +42,7 @@ const RecentPublicHabits = () => {
 
       {/* Habit Cards */}
       {habbits.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 md:px-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-4 md:px-10">
           {habbits.map((item) => (
             <motion.div
               key={item._id}

@@ -23,12 +23,15 @@ const PublicHabitList = () => {
     try {
       setIsFetching(true);
 
-      const response = await axios.get("https://habit-tracker-server-eight.vercel.app/habbits", {
-        params: {
-          search: search || undefined,
-          category: activeCategory !== "All" ? activeCategory : undefined,
-        },
-      });
+      const response = await axios.get(
+        "https://habit-tracker-server-eight.vercel.app/habbits",
+        {
+          params: {
+            search: search || undefined,
+            category: activeCategory !== "All" ? activeCategory : undefined,
+          },
+        }
+      );
 
       setHabits(response.data);
     } catch (err) {
@@ -56,8 +59,19 @@ const PublicHabitList = () => {
           fill="none"
           viewBox="0 0 24 24"
         >
-          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+          <circle
+            className="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            strokeWidth="4"
+          />
+          <path
+            className="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8v8z"
+          />
         </svg>
       </div>
     );
@@ -103,8 +117,19 @@ const PublicHabitList = () => {
             fill="none"
             viewBox="0 0 24 24"
           >
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8v8z"
+            />
           </svg>
         </div>
       )}
@@ -117,7 +142,7 @@ const PublicHabitList = () => {
       )}
 
       {/* Habit Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-4">
         {habits.map((habit) => (
           <motion.div
             data-aos="fade-up"
@@ -132,10 +157,17 @@ const PublicHabitList = () => {
             />
 
             <div className="p-5 flex flex-col gap-2">
-              <h2 className="text-xl font-bold text-base-content dark:text-base-content">{habit.title}</h2>
-              <p className="text-base-content/70 dark:text-base-content/50 text-sm line-clamp-3">{habit.description}</p>
+              <h2 className="text-xl font-bold text-base-content dark:text-base-content">
+                {habit.title}
+              </h2>
+              <p className="text-base-content/70 dark:text-base-content/50 text-sm line-clamp-3">
+                {habit.description}
+              </p>
               <p className="text-base-content/70 dark:text-base-content/50 text-sm">
-                <span className="font-semibold text-primary dark:text-secondary">Creator:</span> {habit.userName || "Unknown"}
+                <span className="font-semibold text-primary dark:text-secondary">
+                  Creator:
+                </span>{" "}
+                {habit.userName || "Unknown"}
               </p>
 
               <h1 className="text-sm bg-primary/20 dark:bg-primary/30 text-primary dark:text-primary px-3 py-1 rounded-full mb-4">
