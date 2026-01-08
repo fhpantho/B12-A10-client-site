@@ -19,7 +19,7 @@ const DashboardStats = () => {
 
   useEffect(() => {
     if (user?.email) {
-      fetch(`http://localhost:3000/dashboard-stats?userEmail=${user.email}`)
+      fetch(`https://habit-tracker-server-eight.vercel.app/dashboard-stats?userEmail=${user.email}`)
         .then((res) => res.json())
         .then((data) => setStats(data))
         .catch((err) => console.error(err));

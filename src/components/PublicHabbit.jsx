@@ -32,7 +32,7 @@ const PublicHabitList = () => {
         loadingRef.current = true;
         setIsFetching(true);
 
-        const response = await axios.get("http://localhost:3000/habbits", {
+        const response = await axios.get("https://habit-tracker-server-eight.vercel.app/habbits", {
           params: {
             search: search || undefined,
             category: activeCategory !== "All" ? activeCategory : undefined,

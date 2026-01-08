@@ -2,11 +2,16 @@ import { NavLink } from "react-router-dom";
 import { useContext } from "react";
 import { Authcontext } from "../../context/Authcontext";
 
-const links = [
+const publicLinks = [
   { name: "Home", path: "/" },
-  { name: "Add Habit", path: "/dashboard/addhabit" },
-  { name: "My Habit", path: "/dashboard/myhabit" },
   { name: "All Habit", path: "/publichabit" },
+  { name: "About", path: "/about" },
+  { name: "Contact", path: "/contact" },
+];
+
+const privateLinks = [
+  { name: "Add Habit", path: "/dashboard/add-habit" },
+  { name: "My Habit", path: "/dashboard/my-habit" },
 ];
 
 const NavbarLinks = () => {
@@ -14,7 +19,7 @@ const NavbarLinks = () => {
 
   return (
     <>
-      {links.map((link) => (
+      {[...publicLinks, ...(user ? privateLinks : [])].map((link) => (
         <li key={link.path}>
           <NavLink
             to={link.path}

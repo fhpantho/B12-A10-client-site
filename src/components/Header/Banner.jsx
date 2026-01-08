@@ -25,16 +25,17 @@ const Banner = () => {
       image: "https://i.ibb.co/xSjq4MrQ/or-just-do-it-with-someone-1680909068.webp",
       words: ["Build Healthy Habits", "Stay Motivated Every Day"],
       description: "Track your daily habits and achieve your goals.",
-      link: "/myhabit",
+      link: "/dashboard/my-habit",
       button: "Track Your Habit",
     },
     {
       image: "https://i.ibb.co/7NT19gmj/build-new-habits-one-at-a-time-1680909068.webp",
       words: ["Stay Consistent", "Build Powerful Streaks"],
       description: "Consistency is the real superpower.",
-      link: "/addhabit",
+      link: "/dashboard/add-habit",
       button: "Add Your Habit",
     },
+
     {
       image: "https://i.ibb.co/RTG4Yczv/images.jpg",
       words: ["Track Progress", "Upgrade Your Lifestyle"],

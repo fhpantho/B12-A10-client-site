@@ -49,10 +49,22 @@ const Footer = () => {
           >
             Terms & Conditions
           </Link>
+          <Link
+            to="/privacy"
+            className="text-sm underline hover:text-orange-200 dark:text-gray-300 mt-1"
+          >
+            Privacy Policy
+          </Link>
+          <Link
+            to="/contact"
+            className="text-sm underline hover:text-orange-200 dark:text-gray-300 mt-1"
+          >
+            Contact
+          </Link>
 
           <div className="flex gap-4 mt-2 text-lg">
             <a
-              href="https://facebook.com"
+              href="https://www.facebook.com/f.h.pantho"
               target="_blank"
               rel="noreferrer"
               className="hover:text-orange-200"
@@ -60,7 +72,7 @@ const Footer = () => {
               <FaFacebook />
             </a>
             <a
-              href="https://twitter.com"
+              href="https://x.com/FHPantho"
               target="_blank"
               rel="noreferrer"
               className="hover:text-orange-200"
@@ -76,7 +88,7 @@ const Footer = () => {
               <FaInstagram />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://linkedin.com/in/fhpantho"
               target="_blank"
               rel="noreferrer"
               className="hover:text-orange-200"

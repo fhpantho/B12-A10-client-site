@@ -58,7 +58,7 @@ const UpdateHabit = () => {
       );
 
       toast.success("Habit updated successfully!");
-      navigate("/dashboard/myhabit");
+      navigate("/dashboard/my-habit");
     } catch (err) {
       console.error(err);
       toast.error(err.response?.data?.message || "Update failed");

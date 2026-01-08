@@ -42,6 +42,27 @@ const Dashboard = () => {
                 </svg>
                 Profile
               </Link>
+<Link
+  to="/dashboard"
+  className="btn btn-ghost justify-start gap-3 w-full hover:bg-purple-100 dark:hover:bg-purple-900/20 text-base-content"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-5 w-5 text-purple-600"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={2}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M3 3v18h18M9 17V9m6 8V5m-3 12v-4"
+    />
+  </svg>
+  Statistic
+</Link>
+
               <Link
                 to="/dashboard/add-habit"
                 className="btn btn-ghost justify-start gap-3 w-full hover:bg-pink-100 dark:hover:bg-pink-900/20 text-base-content"

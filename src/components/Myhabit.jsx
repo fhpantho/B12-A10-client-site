@@ -13,10 +13,12 @@ const Myhabit = () => {
   const [habits, setHabits] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Initialize AOS
   useEffect(() => {
     Aos.init({ duration: 600 });
   }, []);
 
+  // Fetch habits
   useEffect(() => {
     const fetchHabits = async () => {
       if (!user?.email) return;
@@ -24,23 +26,25 @@ const Myhabit = () => {
         setLoading(true);
         const response = await axios.get(
           "https://habit-tracker-server-eight.vercel.app/habbits",
-          {
-            params: { userEmail: user.email },
-          }
+          { params: { userEmail: user.email } }
         );
-        setHabits(response.data);
+        // Server returns { habits: [...], pagination: {...} }
+        setHabits(response.data.habits || []);
       } catch (err) {
-        console.error(err);
+        console.error("Fetch habits error:", err);
+        toast.error("Failed to load habits");
       } finally {
         setLoading(false);
       }
     };
+
     fetchHabits();
   }, [user?.email]);
 
+  // Loading state
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex justify-center items-center min-h-screen bg-base-200">
         <svg
           className="animate-spin h-10 w-10 text-primary"
           xmlns="http://www.w3.org/2000/svg"
@@ -65,14 +69,16 @@ const Myhabit = () => {
     );
   }
 
+  // Empty state
   if (!habits.length) {
     return (
-      <div className="text-center mt-10 text-base-content/70 dark:text-base-content/50 text-lg">
+      <div className="text-center mt-10 text-base-content/70 text-lg">
         You have not added any habits yet.
       </div>
     );
   }
 
+  // Delete habit
   const handleDelete = async (id) => {
     if (!user?.email) return toast.error("You must be logged in!");
 
@@ -90,15 +96,10 @@ const Myhabit = () => {
       try {
         await axios.delete(
           `https://habit-tracker-server-eight.vercel.app/habbits/${id}`,
-          {
-            data: { userEmail: user.email },
-          }
+          { data: { userEmail: user.email } }
         );
-
         toast.success("Habit deleted successfully!");
-        setHabits((prev) =>
-          prev.filter((h) => h._id.toString() !== id.toString())
-        );
+        setHabits((prev) => prev.filter((h) => h._id !== id));
       } catch (err) {
         console.error(err);
         toast.error(err.response?.data?.message || "Delete failed");
@@ -106,6 +107,7 @@ const Myhabit = () => {
     }
   };
 
+  // Complete habit
   const handleComplete = async (habit) => {
     if (!user?.email) return toast.error("You must be logged in!");
 
@@ -134,15 +136,15 @@ const Myhabit = () => {
       data-aos="fade-up"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="p-6 transition-colors duration-300 bg-base-100 dark:bg-base-200 text-base-content dark:text-base-content"
+      className="p-6 bg-base-200 text-base-content min-h-screen"
     >
-      <h1 className="text-3xl font-bold mb-6 text-primary dark:text-secondary">
+      <h1 className="text-3xl font-bold mb-6 text-primary">
         My Habits
       </h1>
 
-      <div className="overflow-x-auto shadow-lg rounded-xl border border-base-300 dark:border-base-400">
+      <div className="overflow-x-auto shadow-lg rounded-xl border border-base-300">
         <table className="w-full text-left">
-          <thead className="bg-base-200 dark:bg-base-300">
+          <thead className="bg-base-200">
             <tr>
               <th className="p-4">Title</th>
               <th className="p-4">Category</th>
@@ -160,7 +162,7 @@ const Myhabit = () => {
               return (
                 <tr
                   key={habit._id}
-                  className="border-t hover:bg-base-200/50 dark:hover:bg-base-300/50 transition"
+                  className="border-t hover:bg-base-200/50 transition"
                 >
                   <td className="p-4 font-semibold">{habit.title}</td>
                   <td className="p-4">{habit.category}</td>
@@ -172,7 +174,7 @@ const Myhabit = () => {
                       ? new Date(habit.createdAt).toLocaleDateString()
                       : "N/A"}
                   </td>
-                  <td className="p-4 flex gap-3 items-center">
+                  <td className="p-4 flex gap-3 flex-wrap">
                     <NavLink to={`/dashboard/updatehabit/${habit._id}`}>
                       <button className="px-3 py-1 rounded bg-primary text-white hover:bg-primary-focus transition">
                         Update

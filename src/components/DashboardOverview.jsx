@@ -1,25 +1,54 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { Authcontext } from "../context/Authcontext";
 
 const DashboardOverview = () => {
+  const { user } = useContext(Authcontext);
+  const [stats, setStats] = useState({
+    totalHabits: 0,
+    completedToday: 0,
+    maxStreak: 0,
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (user?.email) {
+      setLoading(true);
+      fetch(`https://habit-tracker-server-eight.vercel.app/dashboard-stats?userEmail=${user.email}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setStats(data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setLoading(false);
+          setStats({ totalHabits: 0, completedToday: 0, maxStreak: 0 });
+        });
+    }
+  }, [user]);
+
   return (
     <div className="bg-white dark:bg-base-200 rounded-xl shadow-lg p-8">
       <h1 className="text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-500">
         Dashboard Overview
       </h1>
-
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* Placeholder Cards */}
         <div className="p-6 rounded-lg border border-base-content/10 hover:shadow-md transition-shadow">
           <h3 className="text-lg font-semibold mb-2">Total Habits</h3>
-          <p className="text-3xl font-bold text-purple-600">0</p>
+          <p className="text-3xl font-bold text-purple-600">
+            {loading ? "..." : stats.totalHabits}
+          </p>
         </div>
         <div className="p-6 rounded-lg border border-base-content/10 hover:shadow-md transition-shadow">
           <h3 className="text-lg font-semibold mb-2">Completed Today</h3>
-          <p className="text-3xl font-bold text-pink-500">0</p>
+          <p className="text-3xl font-bold text-pink-500">
+            {loading ? "..." : stats.completedToday}
+          </p>
         </div>
         <div className="p-6 rounded-lg border border-base-content/10 hover:shadow-md transition-shadow">
-          <h3 className="text-lg font-semibold mb-2">Streak</h3>
-          <p className="text-3xl font-bold text-orange-400">0 Days</p>
+          <h3 className="text-lg font-semibold mb-2">Longest Streak</h3>
+          <p className="text-3xl font-bold text-orange-400">
+            {loading ? "..." : stats.maxStreak} Days
+          </p>
         </div>
       </div>
     </div>

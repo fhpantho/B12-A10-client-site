@@ -5,6 +5,10 @@ import { toast } from "react-hot-toast";
 
 const Login = () => {
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from || "/";
@@ -26,9 +30,6 @@ const Login = () => {
 
   const handleSingInWithEmailAndPassword = (e) => {
     e.preventDefault();
-
-    const email = e.target.email.value;
-    const password = e.target.password.value;
 
     if (email.length === 0) {
       setError("Please input your Email");
@@ -69,15 +70,12 @@ const Login = () => {
   return (
     <div className="hero min-h-screen bg-gradient-to-r from-purple-600 via-purple-500 to-pink-500 dark:from-base-300 dark:via-base-200 dark:to-base-300 transition-colors duration-300">
       <div className="hero-content flex-col lg:flex-row gap-16 p-6">
-
         {/* Left Section */}
         <div className="text-center lg:text-left text-white dark:text-base-content">
           <h1 className="text-5xl font-bold mb-2">
             Wellcome <span className="text-yellow-300">Back</span>
           </h1>
-
           <h2 className="text-4xl font-semibold mb-4">Login Now!</h2>
-
           <p className="text-lg">
             Dont have an Account?{" "}
             <NavLink
@@ -92,7 +90,6 @@ const Login = () => {
         {/* Right Section */}
         <div className="card bg-base-100 dark:bg-base-200 text-base-content w-full max-w-sm shadow-2xl rounded-xl transition-colors duration-300">
           <div className="card-body">
-
             <form
               onSubmit={handleSingInWithEmailAndPassword}
               className="flex flex-col gap-4"
@@ -100,54 +97,56 @@ const Login = () => {
               <label className="label font-semibold">Email</label>
               <input
                 type="email"
-                name="email"
                 placeholder="Email"
                 className="input input-bordered w-full"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
 
               <label className="label font-semibold">Password</label>
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                className="input input-bordered w-full"
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  className="input input-bordered w-full pr-10"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2"
+                >
+                  {showPassword ? "🙈" : "👁️"}
+                </button>
+              </div>
 
-              <button className="cursor-pointer w-full py-2 rounded-lg bg-gradient-to-r from-pink-500 to-orange-400 hover:from-pink-400 hover:to-orange-300 text-white font-semibold shadow-md transition-all duration-200">
+              <button className="w-full py-2 rounded-lg bg-gradient-to-r from-pink-500 to-orange-400 text-white font-semibold">
                 Login
               </button>
 
-              <div className="text-center text-base-content/60 my-2">— OR —</div>
+              {/* Demo Account Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  setEmail("admin@gmail.com");
+                  setPassword("Aa!123456");
+                }}
+                className="w-full py-2 rounded-lg bg-base-200 hover:bg-base-300 font-semibold"
+              >
+                Continue with Demo Account
+              </button>
+
+              <div className="text-center my-2">— OR —</div>
             </form>
 
             {/* Google Login */}
-            <button
-              onClick={handleGoogleSingIn}
-              className="btn w-full flex items-center justify-center gap-2 bg-base-100 dark:bg-base-300 text-base-content border border-base-300 hover:bg-base-200 transition-colors duration-200 mt-2"
-            >
-              <svg
-                aria-label="Google logo"
-                width="20"
-                height="20"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 512 512"
-              >
-                <g>
-                  <path d="m0 0H512V512H0" fill="#fff"></path>
-                  <path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"></path>
-                  <path fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"></path>
-                  <path fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"></path>
-                  <path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"></path>
-                </g>
-              </svg>
+            <button onClick={handleGoogleSingIn} className="btn w-full mt-2">
               Login with Google
             </button>
 
-            {/* Error Message */}
             {error && (
-              <p className="text-red-500 text-sm mt-2 text-center transition-opacity duration-300">
-                {error || " "}
-              </p>
+              <p className="text-red-500 text-sm mt-2 text-center">{error}</p>
             )}
           </div>
         </div>

@@ -154,7 +154,7 @@ const Navbar = () => {
               </li>
               <li>
                 <Link
-                  to="/dashboard/myhabit"
+                  to="/dashboard/my-habit"
                   className="hover:bg-base-200 dark:hover:bg-base-300 rounded-lg p-2 my-1"
                 >
                   My Habbit
@@ -162,7 +162,7 @@ const Navbar = () => {
               </li>
               <li>
                 <Link
-                  to="/dashboard/addhabit"
+                  to="/dashboard/add-habit"
                   className="hover:bg-base-200 dark:hover:bg-base-300 rounded-lg p-2 my-1"
                 >
                   Add Habbit

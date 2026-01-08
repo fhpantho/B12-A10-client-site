@@ -17,7 +17,12 @@ import HabitDetails from "./components/HabitDetails.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import DashboardOverview from "./components/DashboardOverview.jsx";
 import Profile from "./pages/Profile.jsx";
+import About from "./pages/About.jsx";
+import Contact from "./pages/Contact.jsx";
+import Privacy from "./pages/Privacy.jsx";
+import Terms from "./pages/Terms.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
+import Statistic from "./pages/Statistic.jsx";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +45,22 @@ const router = createBrowserRouter([
         path: "login",
         Component: Login,
       },
+      {
+        path: "about",
+        Component: About,
+      },
+      {
+        path: "contact",
+        Component: Contact,
+      },
+      {
+        path: "privacy",
+        Component: Privacy,
+      },
+      {
+        path: "terms",
+        Component: Terms,
+      },
 
       {
         path: "habbitdetails/:id",
@@ -61,8 +82,9 @@ const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                Component: DashboardOverview,
+                Component: Statistic
               },
+              
               {
                 path: "profile",
                 Component: Profile,
